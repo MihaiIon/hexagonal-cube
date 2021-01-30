@@ -1,6 +1,5 @@
-let MyLibrary = window.MyLibrary.default;
-let myLibraryInstance = new MyLibrary();
+const Library = window.MyLibrary.default;
 
-console.log("myLibraryInstance", myLibraryInstance);
+const instance = new Library('#svg1');
 
-myLibraryInstance.myMethod();
+console.log('Instance', instance);
