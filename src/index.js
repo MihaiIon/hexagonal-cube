@@ -2,8 +2,13 @@ import { formatErrorMessage as fem } from './helpers';
 
 import buildShapesConfig from './build-shapes-config';
 import buildAnimationAttributes from './build-animation-attributes';
+
 import initializeFromOptions from './initialize-from-options';
 import initializeShapes from './initialize-shapes';
+
+import animate from './animate';
+import hide from './hide';
+import show from './show';
 
 function HexagonalCube(svgSelector = null, options = {}) {
   if (svgSelector === null) throw new Error(fem("Param 'svgSelector' is null"));
@@ -61,7 +66,12 @@ HexagonalCube.DEFAULT_SHAPES_OPTIONS = {
 
 HexagonalCube.prototype.buildAnimationAttributes = buildAnimationAttributes;
 HexagonalCube.prototype.buildShapesConfig = buildShapesConfig;
+
 HexagonalCube.prototype.initializeFromOptions = initializeFromOptions;
 HexagonalCube.prototype.initializeShapes = initializeShapes;
+
+HexagonalCube.prototype.animate = animate;
+HexagonalCube.prototype.hide = hide;
+HexagonalCube.prototype.show = show;
 
 export default HexagonalCube;

@@ -27,7 +27,7 @@ export default function () {
   // Added closure to pass 'this.shapesOptions' to each call
   const builder = (name, path) => configBuilder(name, path, this.shapesOptions);
 
-  this.shapesConfig = [
+  const configs = [
     builder(SHAPE_NAME.INNER_BOTTOM_LEFT, `${center}L${i.b.x},${i.b.y}L${i.bl.x},${i.bl.y}`),
     builder(SHAPE_NAME.INNER_BOTTOM_RIGHT, `${center}L${i.b.x},${i.b.y}L${i.br.x},${i.br.y}`),
     builder(SHAPE_NAME.INNER_LEFT, `${center}L${i.bl.x},${i.bl.y}L${i.tl.x},${i.tl.y}`),
@@ -41,6 +41,11 @@ export default function () {
     builder(SHAPE_NAME.OUTER_TOP_LEFT, `M${i.t.x},${i.t.y}L${o.t.x},${o.t.y}L${o.tl.x},${o.tl.y}L${i.tl.x},${i.tl.y}`),
     builder(SHAPE_NAME.OUTER_TOP_RIGHT, `M${i.t.x},${i.t.y}L${o.t.x},${o.t.y}L${o.tr.x},${o.tr.y}L${i.tr.x},${i.tr.y}`),
   ];
+
+  this.shapesConfig = {};
+  configs.forEach((config) => {
+    this.shapesConfig[config.name] = config;
+  });
 }
 
 /**
@@ -87,7 +92,7 @@ const configBuilder = (name, path, shapesOptions) => {
   const { fill, remove } = currentShapeOptions;
 
   return {
-    attr: { 'fill': fill, 'transform-origin': 'center center' },
+    attr: { fill: fill },
     name,
     path,
     remove: typeof remove === 'boolean' ? remove : false,

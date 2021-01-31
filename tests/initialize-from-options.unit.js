@@ -18,10 +18,8 @@ import faker from './shared/faker';
 
 let instance, method;
 
-describe('#initializeOptions', () => {
+describe('#initializeFromOptions', () => {
   beforeEach(() => {
-    createMocks();
-
     initializeInstance();
 
     callMethodWith();
@@ -49,8 +47,6 @@ describe('#initializeOptions', () => {
 function callMethodWith(options = {}) {
   if (typeof method !== 'undefined') method(options);
 }
-
-function createMocks() {}
 
 function initializeInstance() {
   instance = {

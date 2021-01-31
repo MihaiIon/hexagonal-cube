@@ -3,10 +3,12 @@ export default function () {
   this.buildAnimationAttributes();
 
   this.shapes = {};
-  this.shapesConfig.forEach((shapeConfig) => {
-    if (!shapeConfig.remove) {
-      this.shapes[shapeConfig.name] = this.paper.path(shapeConfig.path);
-      this.shapes[shapeConfig.name].attr({
+
+  const shapeNames = Object.keys(this.shapesConfig);
+  shapeNames.forEach((shapeName) => {
+    if (!this.shapesConfig[shapeName].remove) {
+      this.shapes[this.shapesConfig[shapeName].name] = this.paper.path(this.shapesConfig[shapeName].path);
+      this.shapes[this.shapesConfig[shapeName].name].attr({
         ...this.hiddenShapeAttributes,
       });
     }

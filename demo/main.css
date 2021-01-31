@@ -1,0 +1,51 @@
+body {
+  background-color: rgb(250 250 255);
+  margin: 0;
+}
+
+#root {
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#title {
+  background: white;
+  color: #1c628f;
+
+  flex-grow: 1;
+
+  font-size: 3.5rem;
+  font-weight: 500;
+  font-family: system-ui;
+
+  margin-bottom: 1rem;
+  margin-top: 2rem 0;
+  padding: 1rem 0;
+
+  text-align: center;
+}
+
+.svg-container {
+  padding-bottom: 1rem;
+
+  flex-grow: 1;
+  flex-basis: 50%;
+
+  text-align: center;
+}
+
+.svg-container > h1 {
+  background: white;
+  display: inline-block;
+
+  font-family: system-ui;
+  font-weight: 300;
+
+  padding: 0.25rem 1rem;
+}
+
+.svg-container > svg {
+  display: block;
+  margin: 0 auto;
+}
