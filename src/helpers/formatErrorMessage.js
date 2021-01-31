@@ -1,1 +1,1 @@
-export default (errorMessage) => `CubicLogoError: ${errorMessage}`;
+export default (errorMessage) => `HexagonalCubeError: ${errorMessage}`;
