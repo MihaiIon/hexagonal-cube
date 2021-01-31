@@ -19,7 +19,6 @@ function HexagonalCube(svgSelector = null, options = {}) {
 
   this.selector = svgSelector;
 
-  this.visible = false;
   this.animating = false;
 
   this.initializeFromOptions(options);

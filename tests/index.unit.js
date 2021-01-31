@@ -21,7 +21,16 @@ describe('Library', () => {
     jest.restoreAllMocks();
   });
 
-  it("should set 'selector' attribute", () => {
+  it('should set attributes', () => {
+    const expectedKeyValuePairs = {
+      animating: false,
+      selector: instanceArguments[0],
+    };
+
+    expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
+  });
+
+  it("should set 'selector' attribute with the expected value", () => {
     const expectedSelector = instanceArguments[0];
 
     expect(instance.selector).toBe(expectedSelector);
@@ -92,8 +101,8 @@ describe('Library', () => {
           [Library.SHAPE_NAME.INNER_TOP_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY },
           [Library.SHAPE_NAME.OUTER_BOTTOM_LEFT]: { fill: Library.DEFAULT_COLORS.GREY },
           [Library.SHAPE_NAME.OUTER_BOTTOM_RIGHT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: true },
-          [Library.SHAPE_NAME.OUTER_LEFT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: true },
-          [Library.SHAPE_NAME.OUTER_RIGHT]: { fill: Library.DEFAULT_COLORS.GREY },
+          [Library.SHAPE_NAME.OUTER_LEFT]: { fill: Library.DEFAULT_COLORS.GREY },
+          [Library.SHAPE_NAME.OUTER_RIGHT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: true },
           [Library.SHAPE_NAME.OUTER_TOP_LEFT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY },
           [Library.SHAPE_NAME.OUTER_TOP_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY },
         };
@@ -105,18 +114,18 @@ describe('Library', () => {
     describe('SHAPE_NAME', () => {
       it('should have the expected key/value pairs', () => {
         const expectedObject = {
-          OUTER_BOTTOM_LEFT: 'outer-bottom-left',
-          OUTER_BOTTOM_RIGHT: 'outer-bottom-right',
-          OUTER_LEFT: 'outer-left',
-          OUTER_RIGHT: 'outer-right',
-          OUTER_TOP_LEFT: 'outer-top-left',
-          OUTER_TOP_RIGHT: 'outer-top-right',
           INNER_BOTTOM_LEFT: 'inner-bottom-left',
           INNER_BOTTOM_RIGHT: 'inner-bottom-right',
           INNER_LEFT: 'inner-left',
           INNER_RIGHT: 'inner-right',
           INNER_TOP_LEFT: 'inner-top-left',
           INNER_TOP_RIGHT: 'inner-top-right',
+          OUTER_BOTTOM_LEFT: 'outer-bottom-left',
+          OUTER_BOTTOM_RIGHT: 'outer-bottom-right',
+          OUTER_LEFT: 'outer-left',
+          OUTER_RIGHT: 'outer-right',
+          OUTER_TOP_LEFT: 'outer-top-left',
+          OUTER_TOP_RIGHT: 'outer-top-right',
         };
 
         expect(Library.SHAPE_NAME).toStrictEqual(expectedObject);
@@ -128,6 +137,7 @@ describe('Library', () => {
 function createMocks() {
   initializeFromOptionsSpy = jest.fn();
   initializeShapesSpy = jest.fn();
+
   Library.prototype.initializeFromOptions = initializeFromOptionsSpy;
   Library.prototype.initializeShapes = initializeShapesSpy;
 }
