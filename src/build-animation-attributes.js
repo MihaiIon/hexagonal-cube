@@ -23,7 +23,7 @@ export default function () {
   // Shadow-like attributes for hidden shapes
   this.hiddenShapeAttributes = {
     transform: Snap.matrix(1, 0, xInclination, yScale, xTranslation, yTranslation),
-    fill: DEFAULT_COLORS.LIGHT_GREY,
+    fill: DEFAULT_COLORS.WHITE,
     opacity: 0,
   };
 }

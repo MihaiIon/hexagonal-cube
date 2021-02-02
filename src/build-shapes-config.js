@@ -95,7 +95,7 @@ const configBuilder = (name, path, shapesOptions) => {
     attr: { fill: fill },
     name,
     path,
-    remove: typeof remove === 'boolean' ? remove : false,
+    remove,
   };
 };
 
