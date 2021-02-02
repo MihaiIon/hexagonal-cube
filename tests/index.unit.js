@@ -14,7 +14,8 @@ let initializeFromOptionsSpy, initializeShapesSpy;
 describe('Library', () => {
   beforeEach(() => {
     createMocks();
-    initializeInstance();
+
+    initializeInstanceWithValidSelector();
   });
 
   afterEach(() => {
@@ -65,7 +66,7 @@ describe('Library', () => {
         expectedOptions[faker.string()] = faker.string();
       });
 
-      initializeInstance(expectedOptions);
+      initializeInstanceWithValidSelector(expectedOptions);
 
       expect(initializeFromOptionsSpy).toHaveBeenCalledWith(expectedOptions);
     });
@@ -76,6 +77,15 @@ describe('Library', () => {
   });
 
   describe('static', () => {
+    describe('ANIMATION_MODE', () => {
+      const expectedObject = {
+        FORWARD: 'forward',
+        REVERSE: 'reverse',
+      };
+
+      expect(Library.ANIMATION_MODE).toStrictEqual(expectedObject);
+    });
+
     describe('DEFAULT_COLORS', () => {
       it('should have the expected key/value pairs', () => {
         const expectedObject = {
@@ -93,18 +103,18 @@ describe('Library', () => {
     describe('DEFAULT_SHAPES_OPTIONS', () => {
       it('should have the expected key/value pairs', () => {
         const expectedObject = {
-          [Library.SHAPE_NAME.INNER_BOTTOM_LEFT]: { fill: Library.DEFAULT_COLORS.MAIN },
-          [Library.SHAPE_NAME.INNER_BOTTOM_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_MAIN },
-          [Library.SHAPE_NAME.INNER_LEFT]: { fill: Library.DEFAULT_COLORS.MAIN },
-          [Library.SHAPE_NAME.INNER_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_MAIN },
-          [Library.SHAPE_NAME.INNER_TOP_LEFT]: { fill: Library.DEFAULT_COLORS.WHITE },
-          [Library.SHAPE_NAME.INNER_TOP_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY },
-          [Library.SHAPE_NAME.OUTER_BOTTOM_LEFT]: { fill: Library.DEFAULT_COLORS.GREY },
+          [Library.SHAPE_NAME.INNER_BOTTOM_LEFT]: { fill: Library.DEFAULT_COLORS.MAIN, remove: false },
+          [Library.SHAPE_NAME.INNER_BOTTOM_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_MAIN, remove: false },
+          [Library.SHAPE_NAME.INNER_LEFT]: { fill: Library.DEFAULT_COLORS.MAIN, remove: false },
+          [Library.SHAPE_NAME.INNER_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_MAIN, remove: false },
+          [Library.SHAPE_NAME.INNER_TOP_LEFT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: false },
+          [Library.SHAPE_NAME.INNER_TOP_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY, remove: false },
+          [Library.SHAPE_NAME.OUTER_BOTTOM_LEFT]: { fill: Library.DEFAULT_COLORS.GREY, remove: false },
           [Library.SHAPE_NAME.OUTER_BOTTOM_RIGHT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: true },
-          [Library.SHAPE_NAME.OUTER_LEFT]: { fill: Library.DEFAULT_COLORS.GREY },
+          [Library.SHAPE_NAME.OUTER_LEFT]: { fill: Library.DEFAULT_COLORS.GREY, remove: false },
           [Library.SHAPE_NAME.OUTER_RIGHT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: true },
-          [Library.SHAPE_NAME.OUTER_TOP_LEFT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY },
-          [Library.SHAPE_NAME.OUTER_TOP_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY },
+          [Library.SHAPE_NAME.OUTER_TOP_LEFT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY, remove: false },
+          [Library.SHAPE_NAME.OUTER_TOP_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY, remove: false },
         };
 
         expect(Library.DEFAULT_SHAPES_OPTIONS).toStrictEqual(expectedObject);
@@ -142,7 +152,7 @@ function createMocks() {
   Library.prototype.initializeShapes = initializeShapesSpy;
 }
 
-function initializeInstance(opts = {}) {
+function initializeInstanceWithValidSelector(opts = {}) {
   const validIdSelector = `#${faker.string()}`;
 
   instanceArguments = [validIdSelector, opts];

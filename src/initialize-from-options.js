@@ -1,19 +1,26 @@
 import Snap from 'snapsvg-cjs';
 import { formatErrorMessage as fem } from './helpers';
 
-export default function (options) {
-  const { mode = 'forward' } = options;
+export default function (options = {}) {
+  const { ANIMATION_MODE } = this.constructor;
 
-  this.mode = mode;
+  const { animationMode = ANIMATION_MODE.FORWARD, shapeAnimationOrder = null } = options;
 
+  // Create Snap instance
   this.paper = Snap(this.selector);
   this.parentNode = this.paper.node;
 
-  // Get svg size
+  // Set 'size' attribute with svg's 'clientHeight'
   if (this.parentNode.clientHeight !== this.parentNode.clientWidth) throw new Error(fem("Svg element's height and witdh must be the same"));
   else this.size = this.parentNode.clientHeight;
 
+  // Set animation mode
+  if (!/^forward|reverse$/.test(animationMode)) throw new Error(fem("Attribute 'animationMode' must be one of <forward|reverse>"));
+  this.animationMode = animationMode;
+
   // Set shapes options
-  const { DEFAULT_SHAPES_OPTIONS } = this.constructor;
-  this.shapesOptions = { ...DEFAULT_SHAPES_OPTIONS, ...options.shapes };
+  this.buildShapesOptions(options.shapes);
+
+  // Set shape animation order
+  this.configureShapeAnimationOrder(shapeAnimationOrder);
 }

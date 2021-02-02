@@ -3,8 +3,9 @@ export default function (callback = null) {
     this.animate(
       {
         animationAttributes: this.visibleShapeAttributes,
-        animationDelay: 1800,
-        animationDuration: 350,
+        animationDelay: 800,
+        animationDuration: 400,
+        animationOrder: this.shapeAnimationOrder,
       },
       callback,
     );

@@ -1,6 +1,11 @@
 export default function (animationOptions = {}, callback = null) {
   // Animation options
-  const { animationDelay = 10, animationDuration = 10, animationAttributes = this.visibleShapeAttributes } = animationOptions;
+  const {
+    animationAttributes = this.visibleShapeAttributes,
+    animationDelay = 10,
+    animationDuration = 10,
+    animationOrder = this.shapeAnimationOrder,
+  } = animationOptions;
 
   // Animation helpers
   let delay, shape, shapeAttributes;
@@ -12,11 +17,10 @@ export default function (animationOptions = {}, callback = null) {
   const done = callback && typeof callback === 'function' ? callback : () => null;
 
   // Animate
-  const shapeNames = Object.keys(this.shapes);
-  for (let i = 0; i < shapeNames.length; i += 1) {
-    delay = animationDelay * mina.linear((1 / shapeNames.length) * i);
-    shape = this.shapes[shapeNames[i]];
-    shapeAttributes = this.shapesConfig[shapeNames[i]].attr;
+  for (let i = 0; i < animationOrder.length; i += 1) {
+    delay = animationDelay * mina.easeout((1 / animationOrder.length) * i);
+    shape = this.shapes[animationOrder[i]];
+    shapeAttributes = this.shapesConfig[animationOrder[i]].attr;
 
     ((d, s, attr) => {
       let timer = null;
@@ -25,7 +29,7 @@ export default function (animationOptions = {}, callback = null) {
         s.animate({ fill: animationAttributes.fill || attr.fill, opacity: animationAttributes.opacity }, animationDuration, mina.easeinout);
         clearTimeout(timer);
 
-        if (i === shapeNames.length) {
+        if (i === animationOrder.length - 1) {
           timer = setTimeout(() => done() && clearTimeout(timer), animationDuration);
         }
       }, d);

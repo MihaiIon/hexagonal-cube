@@ -1,7 +1,10 @@
 import { formatErrorMessage as fem } from './helpers';
 
-import buildShapesConfig from './build-shapes-config';
 import buildAnimationAttributes from './build-animation-attributes';
+import buildShapesConfig from './build-shapes-config';
+import buildShapesOptions from './build-shapes-options';
+
+import configureShapeAnimationOrder from './configure-shape-animation-order';
 
 import initializeFromOptions from './initialize-from-options';
 import initializeShapes from './initialize-shapes';
@@ -24,6 +27,11 @@ function HexagonalCube(svgSelector = null, options = {}) {
   this.initializeFromOptions(options);
   this.initializeShapes();
 }
+
+HexagonalCube.ANIMATION_MODE = {
+  FORWARD: 'forward',
+  REVERSE: 'reverse',
+};
 
 HexagonalCube.SHAPE_NAME = {
   OUTER_BOTTOM_LEFT: 'outer-bottom-left',
@@ -49,22 +57,25 @@ HexagonalCube.DEFAULT_COLORS = {
 };
 
 HexagonalCube.DEFAULT_SHAPES_OPTIONS = {
-  [HexagonalCube.SHAPE_NAME.INNER_BOTTOM_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.MAIN },
-  [HexagonalCube.SHAPE_NAME.INNER_BOTTOM_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_MAIN },
-  [HexagonalCube.SHAPE_NAME.INNER_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.MAIN },
-  [HexagonalCube.SHAPE_NAME.INNER_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_MAIN },
-  [HexagonalCube.SHAPE_NAME.INNER_TOP_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.WHITE },
-  [HexagonalCube.SHAPE_NAME.INNER_TOP_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_GREY },
-  [HexagonalCube.SHAPE_NAME.OUTER_BOTTOM_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.GREY },
+  [HexagonalCube.SHAPE_NAME.INNER_BOTTOM_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.MAIN, remove: false },
+  [HexagonalCube.SHAPE_NAME.INNER_BOTTOM_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_MAIN, remove: false },
+  [HexagonalCube.SHAPE_NAME.INNER_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.MAIN, remove: false },
+  [HexagonalCube.SHAPE_NAME.INNER_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_MAIN, remove: false },
+  [HexagonalCube.SHAPE_NAME.INNER_TOP_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.WHITE, remove: false },
+  [HexagonalCube.SHAPE_NAME.INNER_TOP_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_GREY, remove: false },
+  [HexagonalCube.SHAPE_NAME.OUTER_BOTTOM_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.GREY, remove: false },
   [HexagonalCube.SHAPE_NAME.OUTER_BOTTOM_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.WHITE, remove: true },
-  [HexagonalCube.SHAPE_NAME.OUTER_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.GREY },
+  [HexagonalCube.SHAPE_NAME.OUTER_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.GREY, remove: false },
   [HexagonalCube.SHAPE_NAME.OUTER_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.WHITE, remove: true },
-  [HexagonalCube.SHAPE_NAME.OUTER_TOP_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_GREY },
-  [HexagonalCube.SHAPE_NAME.OUTER_TOP_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_GREY },
+  [HexagonalCube.SHAPE_NAME.OUTER_TOP_LEFT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_GREY, remove: false },
+  [HexagonalCube.SHAPE_NAME.OUTER_TOP_RIGHT]: { fill: HexagonalCube.DEFAULT_COLORS.LIGHT_GREY, remove: false },
 };
 
 HexagonalCube.prototype.buildAnimationAttributes = buildAnimationAttributes;
 HexagonalCube.prototype.buildShapesConfig = buildShapesConfig;
+HexagonalCube.prototype.buildShapesOptions = buildShapesOptions;
+
+HexagonalCube.prototype.configureShapeAnimationOrder = configureShapeAnimationOrder;
 
 HexagonalCube.prototype.initializeFromOptions = initializeFromOptions;
 HexagonalCube.prototype.initializeShapes = initializeShapes;
