@@ -1,6 +1,6 @@
 {
   "name": "cubic-logo",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "SVG-Snap animated logo",
   "main": "build/index.js",
   "scripts": {
