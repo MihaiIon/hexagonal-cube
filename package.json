@@ -1,5 +1,5 @@
 {
-  "name": "cubic-logo",
+  "name": "hexagonal-cube",
   "version": "0.0.1",
   "description": "SVG-Snap animated logo",
   "main": "build/index.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MihaiIon/cubic-logo"
+    "url": "https://github.com/MihaiIon/hexagonal-cube"
   },
   "author": "Mihai Ionescu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MihaiIon/cubic-logo/issues"
+    "url": "https://github.com/MihaiIon/hexagonal-cube/issues"
   },
-  "homepage": "https://github.com/MihaiIon/cubic-logo",
+  "homepage": "https://github.com/MihaiIon/hexagonal-cube",
   "keywords": [
     "animation",
     "logo",
