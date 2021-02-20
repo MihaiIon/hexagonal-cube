@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src"],
+      "constants/*": ["@constants"],
+      "errors.js": ["@errors"],
+      "methods/*": ["@methods"]
+    }
+  }
+}
