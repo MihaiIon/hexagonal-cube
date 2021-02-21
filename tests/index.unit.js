@@ -1,161 +1,131 @@
-import Library from '../src/index';
-import faker from './shared/faker';
-import { formatErrorMessage as fem } from '../src/helpers';
+import HexagonalCube from '../src/index';
 
-const EXPECTED_ERROR_MESSAGE = {
-  ID_SELECTOR_IS_NULL: fem("Param 'svgSelector' is null"),
-  ID_SELECTOR_IS_NOT_A_STRING: fem("Param 'svgSelector' is not a string"),
-  ID_SELECTOR_IS_NOT_VALID: fem("Param 'svgSelector' is not a valid id selector"),
-};
+import { STATIC_PROPERTIES } from '../src/constants';
+import errors from '../src/errors';
+
+import random from './shared/random';
 
 let instance, instanceArguments;
 let initializeFromOptionsSpy, initializeShapesSpy;
 
-describe('Library', () => {
-  beforeEach(() => {
-    createMocks();
+describe('HexagonalCube', () => {
+  describe('instance', () => {
+    beforeEach(() => {
+      createMocks();
 
-    initializeInstanceWithValidSelector();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
-  it('should set attributes', () => {
-    const expectedKeyValuePairs = {
-      animating: false,
-      selector: instanceArguments[0],
-    };
-
-    expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
-  });
-
-  it("should set 'selector' attribute with the expected value", () => {
-    const expectedSelector = instanceArguments[0];
-
-    expect(instance.selector).toBe(expectedSelector);
-  });
-
-  describe("when 'svgSelector' argument is null", () => {
-    it('should throw the expected error', () => {
-      expect(() => new Library()).toThrowError(EXPECTED_ERROR_MESSAGE.ID_SELECTOR_IS_NULL);
-    });
-  });
-
-  describe("when 'svgSelector' argument is null", () => {
-    it('should throw the expected error', () => {
-      const invalidArguments = [Object, [], {}, false, true, faker.number()];
-
-      invalidArguments.forEach((invalidArgument) => {
-        expect(() => new Library(invalidArgument)).toThrowError(EXPECTED_ERROR_MESSAGE.ID_SELECTOR_IS_NOT_A_STRING);
-      });
-    });
-  });
-
-  describe("when 'svgSelector' argument is an invalid selector", () => {
-    it('should throw the expected error', () => {
-      expect(() => new Library(faker.string())).toThrowError(EXPECTED_ERROR_MESSAGE.ID_SELECTOR_IS_NOT_VALID);
-    });
-  });
-
-  describe('method', () => {
-    it("should call 'initializeFromOptions' with the expected options", () => {
-      const expectedOptions = {};
-      [1, 2, 3].forEach(() => {
-        expectedOptions[faker.string()] = faker.string();
-      });
-
-      initializeInstanceWithValidSelector(expectedOptions);
-
-      expect(initializeFromOptionsSpy).toHaveBeenCalledWith(expectedOptions);
+      factoryWithValidSelector();
     });
 
-    it("should call 'initializeShapesSpy'", () => {
-      expect(initializeShapesSpy).toHaveBeenCalled();
+    afterEach(() => {
+      jest.restoreAllMocks();
     });
-  });
 
-  describe('static', () => {
-    describe('ANIMATION_MODE', () => {
-      const expectedObject = {
-        FORWARD: 'forward',
-        REVERSE: 'reverse',
+    it('should set attributes', () => {
+      const expectedKeyValuePairs = {
+        animating: false,
+        selector: instanceArguments[0],
       };
 
-      expect(Library.ANIMATION_MODE).toStrictEqual(expectedObject);
+      expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
+    });
+
+    it("should set 'selector' attribute with the expected value", () => {
+      const expectedSelector = instanceArguments[0];
+
+      expect(instance.selector).toBe(expectedSelector);
+    });
+
+    describe("when 'svgSelector' argument is null", () => {
+      it('should throw the expected error', () => {
+        expect(() => factory()).toThrowError(errors.svgSelectorIsNull.message);
+      });
+    });
+
+    describe("when 'svgSelector' argument is null", () => {
+      it('should throw the expected error', () => {
+        const invalidArguments = [Object, [], {}, false, true, random.number()];
+
+        invalidArguments.forEach((invalidArgument) => {
+          expect(() => factory(invalidArgument)).toThrowError(errors.svgSelectorMustBeOfTypeString.message);
+        });
+      });
+    });
+
+    describe("when 'svgSelector' argument is an invalid selector", () => {
+      it('should throw the expected error', () => {
+        expect(() => factory(random.string())).toThrowError(errors.svgSelectorIsNotValid.message);
+      });
+    });
+
+    describe('method', () => {
+      describe('#initializeFromOptions', () => {
+        let expectedOptions;
+
+        beforeEach(() => {
+          expectedOptions = {};
+          [1, 2, 3].forEach(() => {
+            expectedOptions[random.string()] = random.string();
+          });
+        });
+
+        it('should be called with the expected options', () => {
+          factoryWithValidSelector(expectedOptions);
+
+          expect(initializeFromOptionsSpy).toHaveBeenCalledWith(expectedOptions);
+        });
+      });
+
+      describe('#initializeFromOptions', () => {
+        it('should be called', () => {
+          expect(initializeShapesSpy).toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe('static property', () => {
+    describe('ANIMATION_DIRECTION', () => {
+      it('should have the expected key/value pairs', () => {
+        expect(HexagonalCube.ANIMATION_DIRECTION).toStrictEqual(STATIC_PROPERTIES.ANIMATION_DIRECTION);
+      });
     });
 
     describe('DEFAULT_COLORS', () => {
       it('should have the expected key/value pairs', () => {
-        const expectedObject = {
-          WHITE: '#ffffff',
-          LIGHT_GREY: '#bdc2c6',
-          GREY: '#7e878f',
-          LIGHT_MAIN: '#b8dbee',
-          MAIN: '#1c628f',
-        };
-
-        expect(Library.DEFAULT_COLORS).toStrictEqual(expectedObject);
+        expect(HexagonalCube.DEFAULT_COLORS).toStrictEqual(STATIC_PROPERTIES.DEFAULT_COLORS);
       });
     });
 
     describe('DEFAULT_SHAPES_OPTIONS', () => {
       it('should have the expected key/value pairs', () => {
-        const expectedObject = {
-          [Library.SHAPE_NAME.INNER_BOTTOM_LEFT]: { fill: Library.DEFAULT_COLORS.MAIN, remove: false },
-          [Library.SHAPE_NAME.INNER_BOTTOM_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_MAIN, remove: false },
-          [Library.SHAPE_NAME.INNER_LEFT]: { fill: Library.DEFAULT_COLORS.MAIN, remove: false },
-          [Library.SHAPE_NAME.INNER_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_MAIN, remove: false },
-          [Library.SHAPE_NAME.INNER_TOP_LEFT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: false },
-          [Library.SHAPE_NAME.INNER_TOP_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY, remove: false },
-          [Library.SHAPE_NAME.OUTER_BOTTOM_LEFT]: { fill: Library.DEFAULT_COLORS.GREY, remove: false },
-          [Library.SHAPE_NAME.OUTER_BOTTOM_RIGHT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: true },
-          [Library.SHAPE_NAME.OUTER_LEFT]: { fill: Library.DEFAULT_COLORS.GREY, remove: false },
-          [Library.SHAPE_NAME.OUTER_RIGHT]: { fill: Library.DEFAULT_COLORS.WHITE, remove: true },
-          [Library.SHAPE_NAME.OUTER_TOP_LEFT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY, remove: false },
-          [Library.SHAPE_NAME.OUTER_TOP_RIGHT]: { fill: Library.DEFAULT_COLORS.LIGHT_GREY, remove: false },
-        };
-
-        expect(Library.DEFAULT_SHAPES_OPTIONS).toStrictEqual(expectedObject);
+        expect(HexagonalCube.DEFAULT_SHAPES_OPTIONS).toStrictEqual(STATIC_PROPERTIES.DEFAULT_SHAPES_OPTIONS);
       });
     });
 
     describe('SHAPE_NAME', () => {
       it('should have the expected key/value pairs', () => {
-        const expectedObject = {
-          INNER_BOTTOM_LEFT: 'inner-bottom-left',
-          INNER_BOTTOM_RIGHT: 'inner-bottom-right',
-          INNER_LEFT: 'inner-left',
-          INNER_RIGHT: 'inner-right',
-          INNER_TOP_LEFT: 'inner-top-left',
-          INNER_TOP_RIGHT: 'inner-top-right',
-          OUTER_BOTTOM_LEFT: 'outer-bottom-left',
-          OUTER_BOTTOM_RIGHT: 'outer-bottom-right',
-          OUTER_LEFT: 'outer-left',
-          OUTER_RIGHT: 'outer-right',
-          OUTER_TOP_LEFT: 'outer-top-left',
-          OUTER_TOP_RIGHT: 'outer-top-right',
-        };
-
-        expect(Library.SHAPE_NAME).toStrictEqual(expectedObject);
+        expect(HexagonalCube.SHAPE_NAME).toStrictEqual(STATIC_PROPERTIES.SHAPE_NAME);
       });
     });
   });
 });
 
 function createMocks() {
-  initializeFromOptionsSpy = jest.fn();
-  initializeShapesSpy = jest.fn();
+  initializeFromOptionsSpy = jest.spyOn(HexagonalCube.prototype, 'initializeFromOptions');
+  initializeShapesSpy = jest.spyOn(HexagonalCube.prototype, 'initializeShapes');
 
-  Library.prototype.initializeFromOptions = initializeFromOptionsSpy;
-  Library.prototype.initializeShapes = initializeShapesSpy;
+  [initializeFromOptionsSpy, initializeShapesSpy].forEach((spy) => spy.mockImplementation(() => true));
 }
 
-function initializeInstanceWithValidSelector(opts = {}) {
-  const validIdSelector = `#${faker.string()}`;
+function factory(svgSelector = null, opts = {}) {
+  instanceArguments = [svgSelector, opts];
+  instance = new HexagonalCube(svgSelector, opts);
 
-  instanceArguments = [validIdSelector, opts];
+  return instance;
+}
 
-  instance = new Library(validIdSelector, opts);
+function factoryWithValidSelector(opts = {}) {
+  const validIdSelector = `#${random.string()}`;
+
+  return factory(validIdSelector, opts);
 }

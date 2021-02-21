@@ -4,7 +4,7 @@ import { ANIMATION_DIRECTION, ANIMATION_MODE } from '../constants/static-propert
 import errors from '../errors';
 
 export default function (options = {}) {
-  const { animationDirection = ANIMATION_DIRECTION.LEFT, animationMode = ANIMATION_MODE.INITIAL, shapeAnimationOrder = null } = options;
+  const { animationDirection = ANIMATION_DIRECTION.LEFT, animationMode = ANIMATION_MODE.INITIAL } = options;
 
   // Create Snap instance
   this.paper = Snap(this.selector);
@@ -29,7 +29,4 @@ export default function (options = {}) {
 
   // Set shapes options
   this.buildShapesOptions(options.shapes);
-
-  // Set shape animation order
-  this.configureShapeAnimationOrder(shapeAnimationOrder);
 }

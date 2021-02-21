@@ -4,6 +4,7 @@ const string = () => Math.random().toString(36).substring(7);
 export default {
   boolean: () => Math.random() < 0.5,
   elementFromArray,
+  hexColor: () => `#${Math.floor(Math.random() * 16777215).toString(16)}`,
   keyFromObject: (obj = []) => elementFromArray(Object.keys(obj)),
   number: () => Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
   string,
