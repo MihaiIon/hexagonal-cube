@@ -1,26 +1,27 @@
-export default function (userShapesOptions = {}) {
-  const { DEFAULT_SHAPES_OPTIONS } = this.constructor;
+import { DEFAULT_SHAPES_OPTIONS } from '../constants/static-properties';
 
+export default function (userShapesOptions = {}) {
   // Set default options
   this.shapesOptions = { ...DEFAULT_SHAPES_OPTIONS };
 
-  // Keep track of valid shape names
+  // For filtering typos
   const validShapeNames = Object.keys(this.shapesOptions);
 
-  let defaultFill, userFill;
-  let defaultRemove, userRemove;
+  let defaultFill, defaultRemove;
+  let userFill, userRemove;
 
   Object.keys(userShapesOptions)
     .filter((shapeName) => validShapeNames.includes(shapeName))
     .forEach((shapeName) => {
       defaultFill = this.shapesOptions[shapeName].fill;
       defaultRemove = this.shapesOptions[shapeName].remove;
+
       userFill = userShapesOptions[shapeName].fill;
       userRemove = userShapesOptions[shapeName].remove;
 
       this.shapesOptions[shapeName] = {
-        fill: typeof userFill === 'string' ? userFill : defaultFill,
-        remove: typeof userRemove === 'boolean' ? userRemove : defaultRemove,
+        fill: typeof userFill !== 'undefined' ? userFill : defaultFill,
+        remove: typeof userRemove !== 'undefined' ? userRemove : defaultRemove,
       };
     });
 }

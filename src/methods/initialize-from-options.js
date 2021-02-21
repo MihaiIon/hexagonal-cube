@@ -28,5 +28,5 @@ export default function (options = {}) {
   this.animationMode = animationMode;
 
   // Set shapes options
-  this.buildShapesOptions(options.shapes);
+  this.initializeShapesOptions(options.shapes);
 }

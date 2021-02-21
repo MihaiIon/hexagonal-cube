@@ -8,7 +8,7 @@ import errors from '../../src/errors';
 import random from '../shared/random';
 
 let instance, method;
-let buildShapesOptionsSpy;
+let initializeShapesOptionsSpy;
 
 describe('#initializeFromOptions', () => {
   beforeEach(() => {
@@ -67,12 +67,12 @@ describe('#initializeFromOptions', () => {
       expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
     });
 
-    it("should call 'buildShapesOptions' with the expected argument", () => {
+    it("should call 'initializeShapesOptions' with the expected argument", () => {
       const expectedArgument = methodOptions.shapes;
 
       callMethod(methodOptions);
 
-      expect(buildShapesOptionsSpy).toHaveBeenCalledWith(expectedArgument);
+      expect(initializeShapesOptionsSpy).toHaveBeenCalledWith(expectedArgument);
     });
 
     describe("when 'animationDirection' is not valid", () => {
@@ -107,11 +107,11 @@ function callMethod(options = {}) {
 }
 
 function createInstance(validSelector = `#${random.string()}`) {
-  buildShapesOptionsSpy = jest.fn();
+  initializeShapesOptionsSpy = jest.fn();
 
   instance = {
     selector: validSelector,
-    buildShapesOptions: buildShapesOptionsSpy,
+    initializeShapesOptions: initializeShapesOptionsSpy,
   };
 
   method = initializeFromOptions.bind(instance);
