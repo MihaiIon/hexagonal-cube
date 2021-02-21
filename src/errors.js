@@ -6,7 +6,6 @@ const error = (errorMessage) => new Error(formatErrorMessage(errorMessage));
 export default {
   animationDirectionMustBeOneOf: error(`Attribute 'animationDirection' must be one of <${Object.values(ANIMATION_DIRECTION).join('|')}>`),
   shapefillColorFormat: error("Attribute 'shape.fill' must match the following pattern: /^#[0-9a-fA-F]{6}$/"),
-  shapeOrderMustBeOfTypeNumber: error("Attribute 'shape.order' must be of type 'number'"),
   shapeRemoveMustBeOfTypeBoolean: error("Attribute 'shape.remove' must be of type 'boolean'"),
   animationModeMustBeOneOf: error(`Attribute 'animationMode' must be one of <${Object.values(ANIMATION_MODE).join('|')}>`),
   svgHeightAndWidthMustBeTheSame: error("Svg element's height and witdh must be the same"),

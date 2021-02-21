@@ -6,13 +6,10 @@ function Shape(name, path, options) {
   this.name = name;
   this.path = path;
 
-  const { fill = '#000000', order = 1, remove = false } = options;
+  const { fill = '#000000', remove = false } = options;
 
   if (!regexps.fillColor.test(fill)) throw errors.shapefillColorFormat;
   this.attr = { fill };
-
-  if (typeof order !== 'number') throw errors.shapeOrderMustBeOfTypeNumber;
-  this.order = order;
 
   if (typeof remove !== 'boolean') throw errors.shapeRemoveMustBeOfTypeBoolean;
   this.remove = remove;

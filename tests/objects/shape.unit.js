@@ -25,7 +25,6 @@ describe('Shape', () => {
       it('should set the expected default attributes', () => {
         const expectedKeyValuePairs = {
           attr: { fill: '#000000' },
-          order: 1,
           remove: false,
         };
 
@@ -39,7 +38,6 @@ describe('Shape', () => {
       beforeEach(() => {
         shapeOptions = {
           fill: random.hexColor(),
-          order: random.number(),
           remove: random.boolean(),
         };
 
@@ -49,7 +47,6 @@ describe('Shape', () => {
       it('should set the expected attributes', () => {
         const expectedKeyValuePairs = {
           attr: { fill: shapeOptions.fill },
-          order: shapeOptions.order,
           remove: shapeOptions.remove,
         };
 
@@ -60,12 +57,6 @@ describe('Shape', () => {
         const instanceThrowingError = () => factoryWithGeneratedNameAndPath({ ...shapeOptions, fill: random.number() });
 
         expect(instanceThrowingError).toThrowError(errors.shapefillColorFormat.message);
-      });
-
-      describe("when 'options.order' must be of type 'number'", () => {
-        const instanceThrowingError = () => factoryWithGeneratedNameAndPath({ ...shapeOptions, order: random.boolean() });
-
-        expect(instanceThrowingError).toThrowError(errors.shapeOrderMustBeOfTypeNumber.message);
       });
 
       describe("when 'options.remove' must be of type 'boolean'", () => {
