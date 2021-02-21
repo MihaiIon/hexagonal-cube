@@ -12,7 +12,8 @@ function HexagonalCube(svgSelector = null, options = {}) {
   this.animating = false;
 
   this.initializeFromOptions(options);
-  this.initializeShapes();
+
+  this.renderShapes();
 }
 
 Object.keys(STATIC_PROPERTIES).forEach((propertyName) => {

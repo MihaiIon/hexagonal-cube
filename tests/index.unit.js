@@ -6,7 +6,7 @@ import errors from '../src/errors';
 import random from './shared/random';
 
 let instance, instanceArguments;
-let initializeFromOptionsSpy, initializeShapesSpy;
+let initializeFromOptionsSpy, renderShapesSpy;
 
 describe('HexagonalCube', () => {
   describe('instance', () => {
@@ -58,7 +58,7 @@ describe('HexagonalCube', () => {
     });
 
     describe('method', () => {
-      describe('#initializeFromOptions', () => {
+      describe('#initializeFromOptionsSpy', () => {
         let expectedOptions;
 
         beforeEach(() => {
@@ -75,9 +75,9 @@ describe('HexagonalCube', () => {
         });
       });
 
-      describe('#initializeFromOptions', () => {
+      describe('#initializeShapes', () => {
         it('should be called', () => {
-          expect(initializeShapesSpy).toHaveBeenCalled();
+          expect(renderShapesSpy).toHaveBeenCalled();
         });
       });
     });
@@ -112,9 +112,9 @@ describe('HexagonalCube', () => {
 
 function createMocks() {
   initializeFromOptionsSpy = jest.spyOn(HexagonalCube.prototype, 'initializeFromOptions');
-  initializeShapesSpy = jest.spyOn(HexagonalCube.prototype, 'initializeShapes');
+  renderShapesSpy = jest.spyOn(HexagonalCube.prototype, 'renderShapes');
 
-  [initializeFromOptionsSpy, initializeShapesSpy].forEach((spy) => spy.mockImplementation(() => true));
+  [initializeFromOptionsSpy, renderShapesSpy].forEach((spy) => spy.mockImplementation(() => true));
 }
 
 function factory(svgSelector = null, opts = {}) {

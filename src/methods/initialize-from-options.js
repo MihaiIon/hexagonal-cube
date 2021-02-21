@@ -29,4 +29,7 @@ export default function (options = {}) {
 
   // Set shapes options
   this.initializeShapesOptions(options.shapes);
+
+  // Set shapes
+  this.initializeShapes();
 }

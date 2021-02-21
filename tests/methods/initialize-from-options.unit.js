@@ -8,17 +8,13 @@ import errors from '../../src/errors';
 import random from '../shared/random';
 
 let instance, method;
-let initializeShapesOptionsSpy;
+let initializeShapesSpy, initializeShapesOptionsSpy;
 
 describe('#initializeFromOptions', () => {
   beforeEach(() => {
     createInstance();
 
     callMethod();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   it("should call 'Snap' library with the expected selector", () => {
@@ -29,6 +25,10 @@ describe('#initializeFromOptions', () => {
     const expectedSize = Snap.__mockedValidPaper.node.clientHeight;
 
     expect(instance.size).toBe(expectedSize);
+  });
+
+  it("should call 'initializeShapes'", () => {
+    expect(initializeShapesSpy).toHaveBeenCalled();
   });
 
   describe("when 'options' are not set", () => {
@@ -107,10 +107,12 @@ function callMethod(options = {}) {
 }
 
 function createInstance(validSelector = `#${random.string()}`) {
+  initializeShapesSpy = jest.fn();
   initializeShapesOptionsSpy = jest.fn();
 
   instance = {
     selector: validSelector,
+    initializeShapes: initializeShapesSpy,
     initializeShapesOptions: initializeShapesOptionsSpy,
   };
 
