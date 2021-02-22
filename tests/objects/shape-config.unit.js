@@ -1,4 +1,4 @@
-import Shape from '../../src/objects/shape';
+import ShapeConfig from '../../src/objects/shape-config';
 
 import errors from '../../src/errors';
 
@@ -6,7 +6,7 @@ import random from '../shared/random';
 
 let instance, instanceArguments;
 
-describe('Shape', () => {
+describe('ShapeConfig', () => {
   describe('instance', () => {
     beforeEach(() => {
       factoryWithGeneratedNameAndPath();
@@ -24,7 +24,7 @@ describe('Shape', () => {
     describe('when options are not set', () => {
       it('should set the expected default attributes', () => {
         const expectedKeyValuePairs = {
-          attr: { fill: '#000000' },
+          fill: '#000000',
           remove: false,
         };
 
@@ -46,7 +46,7 @@ describe('Shape', () => {
 
       it('should set the expected attributes', () => {
         const expectedKeyValuePairs = {
-          attr: { fill: shapeOptions.fill },
+          fill: shapeOptions.fill,
           remove: shapeOptions.remove,
         };
 
@@ -65,12 +65,41 @@ describe('Shape', () => {
         expect(instanceThrowingError).toThrowError(errors.shapeRemoveMustBeOfTypeBoolean.message);
       });
     });
+
+    describe('methods', () => {
+      let shapeOptions;
+
+      beforeEach(() => {
+        shapeOptions = {
+          fill: random.hexColor(),
+          remove: random.boolean(),
+        };
+
+        factoryWithGeneratedNameAndPath(shapeOptions);
+      });
+
+      describe('#attributes', () => {
+        it('should set the expected attributes', () => {
+          const expectedKeyValuePairs = {
+            attr: { fill: shapeOptions.fill },
+          };
+
+          instance.attributes();
+
+          expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
+        });
+
+        it('should return the expected object', () => {
+          expect(instance.attributes()).toEqual(instance.attr);
+        });
+      });
+    });
   });
 });
 
 function factory(name, path, options = {}) {
   instanceArguments = [name, path, options];
-  instance = new Shape(name, path, options);
+  instance = new ShapeConfig(name, path, options);
 
   return instance;
 }
