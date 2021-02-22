@@ -70,9 +70,9 @@ export default function () {
     ]),
   ];
 
-  this.shapesConfig = {};
+  this.shapeConfigs = {};
   configs.forEach((config) => {
-    this.shapesConfig[config.name] = config;
+    this.shapeConfigs[config.name] = config;
   });
 }
 
@@ -97,18 +97,18 @@ const moveTo = (x, y) => `M${f(x)},${f(y)}`;
 const lineTo = (x, y) => `L${f(x)},${f(y)}`;
 
 /**
- * Provides a function that has in its closure the `shapesOptions` of the current instance of HexagonalCube. This function returns a `ShapeConfig`
+ * Provides a function that has in its closure the `shapeOptions` of the current instance of HexagonalCube. This function returns a `ShapeConfig`
  * with a given `name` and `pathInstructions`. The `ShapeConfig` is provided to the SvgSnap library to draw the desired shapes.
  *
- * @param {*} shapesOptions Shape options for the current instance of HexagonalCube
+ * @param {*} shapeOptions Shape options for the current instance of HexagonalCube
  * @param {string} name Shape name (See STATIC_PROPERTIES.SHAPE_NAME)
  * @param {[string]} pathInstructions SVG path instructions to draw the shape
  */
-const buildFactory = (shapesOptions) => {
+const buildFactory = (shapeOptions) => {
   const factory = (name, pathInstructions) => {
     const path = pathInstructions.join('');
 
-    return new ShapeConfig(name, path, shapesOptions);
+    return new ShapeConfig(name, path, shapeOptions[name]);
   };
 
   return factory;
