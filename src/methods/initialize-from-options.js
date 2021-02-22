@@ -30,6 +30,6 @@ export default function (options = {}) {
   // Set shapes options
   this.initializeShapesOptions(options.shapes);
 
-  // Set shapes
-  this.initializeShapes();
+  // Set shapes configuration for SnapSvg library
+  this.initializeShapesConfig();
 }

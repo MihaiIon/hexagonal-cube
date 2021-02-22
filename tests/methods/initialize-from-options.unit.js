@@ -8,7 +8,7 @@ import errors from '../../src/errors';
 import random from '../shared/random';
 
 let instance, method;
-let initializeShapesSpy, initializeShapesOptionsSpy;
+let initializeShapesConfigSpy, initializeShapesOptionsSpy;
 
 describe('#initializeFromOptions', () => {
   beforeEach(() => {
@@ -27,8 +27,8 @@ describe('#initializeFromOptions', () => {
     expect(instance.size).toBe(expectedSize);
   });
 
-  it("should call 'initializeShapes'", () => {
-    expect(initializeShapesSpy).toHaveBeenCalled();
+  it("should call 'initializeShapesConfig'", () => {
+    expect(initializeShapesConfigSpy).toHaveBeenCalled();
   });
 
   describe("when 'options' are not set", () => {
@@ -107,12 +107,12 @@ function callMethod(options = {}) {
 }
 
 function createInstance(validSelector = `#${random.string()}`) {
-  initializeShapesSpy = jest.fn();
+  initializeShapesConfigSpy = jest.fn();
   initializeShapesOptionsSpy = jest.fn();
 
   instance = {
     selector: validSelector,
-    initializeShapes: initializeShapesSpy,
+    initializeShapesConfig: initializeShapesConfigSpy,
     initializeShapesOptions: initializeShapesOptionsSpy,
   };
 
