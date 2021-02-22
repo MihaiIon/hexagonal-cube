@@ -1,4 +1,4 @@
-import initializeShapes from '../../src/methods/initialize-shapes-config';
+import initializeShapeConfigs from '../../src/methods/initialize-shape-configs';
 
 import ShapeConfig from '../../src/objects/shape-config';
 
@@ -22,5 +22,5 @@ function callMethod(options = {}) {
 function createInstance() {
   instance = {};
 
-  method = initializeShapes.bind(instance);
+  method = initializeShapeConfigs.bind(instance);
 }

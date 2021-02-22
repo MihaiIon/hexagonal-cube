@@ -8,7 +8,7 @@ import errors from '../../src/errors';
 import random from '../shared/random';
 
 let instance, method;
-let initializeShapesConfigSpy, initializeShapesOptionsSpy;
+let initializeShapeConfigsSpy, initializeShapeOptionsSpy;
 
 describe('#initializeFromOptions', () => {
   beforeEach(() => {
@@ -27,8 +27,8 @@ describe('#initializeFromOptions', () => {
     expect(instance.size).toBe(expectedSize);
   });
 
-  it("should call 'initializeShapesConfig'", () => {
-    expect(initializeShapesConfigSpy).toHaveBeenCalled();
+  it("should call 'initializeShapeConfigs'", () => {
+    expect(initializeShapeConfigsSpy).toHaveBeenCalled();
   });
 
   describe("when 'options' are not set", () => {
@@ -67,17 +67,18 @@ describe('#initializeFromOptions', () => {
       expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
     });
 
-    it("should call 'initializeShapesOptions' with the expected argument", () => {
+    it("should call 'initializeShapeOptions' with the expected argument", () => {
       const expectedArgument = methodOptions.shapes;
 
       callMethod(methodOptions);
 
-      expect(initializeShapesOptionsSpy).toHaveBeenCalledWith(expectedArgument);
+      expect(initializeShapeOptionsSpy).toHaveBeenCalledWith(expectedArgument);
     });
 
     describe("when 'animationDirection' is not valid", () => {
       it('should throw the expected error', () => {
-        const callMethodWithInvalidAnimationDirection = () => callMethod({ ...methodOptions, animationDirection: `${random.number()}` });
+        const callMethodWithInvalidAnimationDirection = () =>
+          callMethod({ ...methodOptions, animationDirection: `${random.number()}` });
 
         expect(callMethodWithInvalidAnimationDirection).toThrowError(errors.animationDirectionMustBeOneOf.message);
       });
@@ -107,13 +108,13 @@ function callMethod(options = {}) {
 }
 
 function createInstance(validSelector = `#${random.string()}`) {
-  initializeShapesConfigSpy = jest.fn();
-  initializeShapesOptionsSpy = jest.fn();
+  initializeShapeConfigsSpy = jest.fn();
+  initializeShapeOptionsSpy = jest.fn();
 
   instance = {
     selector: validSelector,
-    initializeShapesConfig: initializeShapesConfigSpy,
-    initializeShapesOptions: initializeShapesOptionsSpy,
+    initializeShapeConfigs: initializeShapeConfigsSpy,
+    initializeShapeOptions: initializeShapeOptionsSpy,
   };
 
   method = initializeFromOptions.bind(instance);

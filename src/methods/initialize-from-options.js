@@ -28,8 +28,8 @@ export default function (options = {}) {
   this.animationMode = animationMode;
 
   // Set shapes options
-  this.initializeShapesOptions(options.shapes);
+  this.initializeShapeOptions(options.shapes);
 
   // Set shapes configuration for SnapSvg library
-  this.initializeShapesConfig();
+  this.initializeShapeConfigs();
 }

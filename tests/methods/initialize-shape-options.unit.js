@@ -1,6 +1,6 @@
-import initializeShapesOptions from '../../src/methods/initialize-shapes-options';
+import initializeShapesOptions from '../../src/methods/initialize-shape-options';
 
-import { DEFAULT_SHAPES_OPTIONS } from '../../src/constants/static-properties';
+import { DEFAULT_SHAPE_OPTIONS } from '../../src/constants/static-properties';
 
 import random from '../shared/random';
 
@@ -12,63 +12,63 @@ describe('#initializeShapesOptions', () => {
   });
 
   describe('when there are no user defined shapes options', () => {
-    it("should set 'shapesOptions' to the default value", () => {
+    it("should set 'shapeOptions' to the default value", () => {
       callMethod();
 
-      expect(instance.shapesOptions).toEqual(DEFAULT_SHAPES_OPTIONS);
+      expect(instance.shapeOptions).toEqual(DEFAULT_SHAPE_OPTIONS);
     });
   });
 
   describe('when there are user defined shapes options', () => {
-    let userShapesOptions;
+    let userShapeOptions;
 
     describe('when shape name is not valid', () => {
       beforeEach(() => {
         const invalidShapeName = random.string();
 
-        userShapesOptions = {
+        userShapeOptions = {
           [invalidShapeName]: {
             fill: random.hexColor(),
             remove: random.boolean(),
           },
         };
 
-        callMethod(userShapesOptions);
+        callMethod(userShapeOptions);
       });
 
       it('should ignore it and keep the default values', () => {
-        expect(instance.shapesOptions).toEqual(DEFAULT_SHAPES_OPTIONS);
+        expect(instance.shapeOptions).toEqual(DEFAULT_SHAPE_OPTIONS);
       });
     });
 
     describe('when shape name is valid', () => {
       beforeEach(() => {
-        const validShapeName = random.keyFromObject(DEFAULT_SHAPES_OPTIONS);
+        const validShapeName = random.keyFromObject(DEFAULT_SHAPE_OPTIONS);
 
-        userShapesOptions = {
+        userShapeOptions = {
           [validShapeName]: {
             fill: random.hexColor(),
             remove: random.boolean(),
           },
         };
 
-        callMethod(userShapesOptions);
+        callMethod(userShapeOptions);
       });
 
       it('should override the default value for that shape', () => {
         const expectedShapesOptions = {
-          ...DEFAULT_SHAPES_OPTIONS,
-          ...userShapesOptions,
+          ...DEFAULT_SHAPE_OPTIONS,
+          ...userShapeOptions,
         };
 
-        expect(instance.shapesOptions).toEqual(expectedShapesOptions);
+        expect(instance.shapeOptions).toEqual(expectedShapesOptions);
       });
     });
   });
 });
 
-function callMethod(userShapesOptions = {}) {
-  if (typeof method !== 'undefined') return method(userShapesOptions);
+function callMethod(userShapeOptions = {}) {
+  if (typeof method !== 'undefined') return method(userShapeOptions);
   return null;
 }
 

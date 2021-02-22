@@ -96,9 +96,9 @@ describe('HexagonalCube', () => {
       });
     });
 
-    describe('DEFAULT_SHAPES_OPTIONS', () => {
+    describe('DEFAULT_SHAPE_OPTIONS', () => {
       it('should have the expected key/value pairs', () => {
-        expect(HexagonalCube.DEFAULT_SHAPES_OPTIONS).toStrictEqual(STATIC_PROPERTIES.DEFAULT_SHAPES_OPTIONS);
+        expect(HexagonalCube.DEFAULT_SHAPE_OPTIONS).toStrictEqual(STATIC_PROPERTIES.DEFAULT_SHAPE_OPTIONS);
       });
     });
 

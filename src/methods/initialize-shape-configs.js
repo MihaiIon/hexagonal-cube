@@ -22,7 +22,7 @@ export default function () {
   const moveToCenter = moveTo(c.x, c.y);
 
   // See helpers below
-  const factory = buildFactory(this.shapesOptions);
+  const factory = buildFactory(this.shapeOptions);
 
   const configs = [
     factory(SHAPE_NAME.INNER_BOTTOM_LEFT, [moveToCenter, lineTo(i.b.x, i.b.y), lineTo(i.bl.x, i.bl.y)]),

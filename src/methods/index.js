@@ -3,8 +3,8 @@ import buildAnimationAttributes from './build-animation-attributes';
 import configureShapeAnimationOrder from './configure-shape-animation-order';
 
 import initializeFromOptions from './initialize-from-options';
-import initializeShapesConfig from './initialize-shapes-config';
-import initializeShapesOptions from './initialize-shapes-options';
+import initializeShapeConfigs from './initialize-shape-configs';
+import initializeShapeOptions from './initialize-shape-options';
 
 import renderShapes from './render-shapes';
 
@@ -18,8 +18,8 @@ export default {
   configureShapeAnimationOrder,
   hide,
   initializeFromOptions,
-  initializeShapesConfig,
-  initializeShapesOptions,
+  initializeShapeConfigs,
+  initializeShapeOptions,
   renderShapes,
   show,
 };

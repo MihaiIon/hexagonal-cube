@@ -38,7 +38,7 @@ export const SHAPE_NAME = {
   INNER_TOP_RIGHT: 'inner-top-right',
 };
 
-export const DEFAULT_SHAPES_OPTIONS = {
+export const DEFAULT_SHAPE_OPTIONS = {
   [SHAPE_NAME.INNER_BOTTOM_LEFT]: { fill: DEFAULT_COLORS.MAIN, remove: false },
   [SHAPE_NAME.INNER_BOTTOM_RIGHT]: { fill: DEFAULT_COLORS.LIGHT_MAIN, remove: false },
   [SHAPE_NAME.INNER_LEFT]: { fill: DEFAULT_COLORS.MAIN, remove: false },
@@ -56,7 +56,7 @@ export const DEFAULT_SHAPES_OPTIONS = {
 export default {
   ANIMATION_MODE,
   ANIMATION_DIRECTION,
-  DEFAULT_SHAPES_OPTIONS,
+  DEFAULT_SHAPE_OPTIONS,
   DEFAULT_COLORS,
   SHAPE_NAME,
 };
