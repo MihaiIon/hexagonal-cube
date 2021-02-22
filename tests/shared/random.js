@@ -6,7 +6,11 @@ export default {
   elementFromArray,
   hexColor: () => `#${Math.floor(Math.random() * 16777215).toString(16)}`,
   keyFromObject: (obj = []) => elementFromArray(Object.keys(obj)),
-  number: () => Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
+  number: (options = {}) => {
+    const { max = Number.MAX_SAFE_INTEGER } = options;
+
+    return Math.floor(Math.random() * max);
+  },
   string,
   stringArray: (count = 3) => new Array(count).fill(0).map(string),
   valueFromObject: (obj = {}) => elementFromArray(Object.values(obj)),
