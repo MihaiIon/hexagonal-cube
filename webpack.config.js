@@ -23,7 +23,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'build'),
-    library: 'MyLibrary',
+    library: 'HexagonalCube',
     libraryTarget: 'umd',
   },
   optimization: {

@@ -4,7 +4,7 @@ import ShapeConfig from '../objects/shape-config';
 
 export default function () {
   // Compute a safe zone margin for animations
-  this.safeMargins = this.size * 0.1;
+  this.safeMargins = this.size * 0.2;
   this.safeSize = this.size - this.safeMargins;
 
   // Compute triangle dimensions
