@@ -6,7 +6,7 @@ import initializeFromOptions from './initialize-from-options';
 import initializeShapeConfigs from './initialize-shape-configs';
 import initializeShapeOptions from './initialize-shape-options';
 
-import renderShapes from './render-shapes';
+import initializeShapes from './initialize-shapes';
 
 import animate from './animate';
 import hide from './hide';
@@ -20,6 +20,6 @@ export default {
   initializeFromOptions,
   initializeShapeConfigs,
   initializeShapeOptions,
-  renderShapes,
+  initializeShapes,
   show,
 };

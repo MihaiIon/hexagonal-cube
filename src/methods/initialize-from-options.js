@@ -27,9 +27,6 @@ export default function (options = {}) {
   if (!propertyRegexp.test(animationMode)) throw errors.animationModeMustBeOneOf;
   this.animationMode = animationMode;
 
-  // Set shapes options
-  this.initializeShapeOptions(options.shapes);
-
-  // Set shapes configuration for SnapSvg library
-  this.initializeShapeConfigs();
+  // Set shape objects
+  this.initializeShapes(options.shapes);
 }

@@ -8,7 +8,7 @@ import errors from '../../src/errors';
 import random from '../shared/random';
 
 let instance, method;
-let initializeShapeConfigsSpy, initializeShapeOptionsSpy;
+let initializeShapesSpy;
 
 describe('#initializeFromOptions', () => {
   beforeEach(() => {
@@ -25,10 +25,6 @@ describe('#initializeFromOptions', () => {
     const expectedSize = Snap.__mockedValidPaper.node.clientHeight;
 
     expect(instance.size).toBe(expectedSize);
-  });
-
-  it("should call 'initializeShapeConfigs'", () => {
-    expect(initializeShapeConfigsSpy).toHaveBeenCalled();
   });
 
   describe("when 'options' are not set", () => {
@@ -67,12 +63,12 @@ describe('#initializeFromOptions', () => {
       expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
     });
 
-    it("should call 'initializeShapeOptions' with the expected argument", () => {
+    it("should call 'initializeShapes' with the expected argument", () => {
       const expectedArgument = methodOptions.shapes;
 
       callMethod(methodOptions);
 
-      expect(initializeShapeOptionsSpy).toHaveBeenCalledWith(expectedArgument);
+      expect(initializeShapesSpy).toHaveBeenCalledWith(expectedArgument);
     });
 
     describe("when 'animationDirection' is not valid", () => {
@@ -108,13 +104,11 @@ function callMethod(options = {}) {
 }
 
 function createInstance(validSelector = `#${random.string()}`) {
-  initializeShapeConfigsSpy = jest.fn();
-  initializeShapeOptionsSpy = jest.fn();
+  initializeShapesSpy = jest.fn();
 
   instance = {
     selector: validSelector,
-    initializeShapeConfigs: initializeShapeConfigsSpy,
-    initializeShapeOptions: initializeShapeOptionsSpy,
+    initializeShapes: initializeShapesSpy,
   };
 
   method = initializeFromOptions.bind(instance);
