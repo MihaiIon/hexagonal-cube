@@ -2,7 +2,7 @@ import Snap from 'snapsvg-cjs';
 
 import initializeFromOptions from '../../src/methods/initialize-from-options';
 
-import { ANIMATION_DIRECTION, ANIMATION_MODE } from '../../src/constants/static-properties';
+import { ANIMATION_DIRECTION, ANIMATION_DURATION, ANIMATION_MODE } from '../../src/constants/static-properties';
 import errors from '../../src/errors';
 
 import random from '../shared/random';
@@ -54,6 +54,7 @@ describe('#initializeFromOptions', () => {
     beforeEach(() => {
       instanceOptions = {
         animationDirection: random.valueFromObject(ANIMATION_DIRECTION),
+        animationDuration: random.number(),
         animationMode: random.valueFromObject(ANIMATION_MODE),
         shapeAnimationOrder: random.stringArray(),
         shapes: random.stringArray(),
@@ -65,6 +66,7 @@ describe('#initializeFromOptions', () => {
     it('should set the expected values', () => {
       const expectedKeyValuePairs = {
         animationDirection: instanceOptions.animationDirection,
+        animationDuration: instanceOptions.animationDuration,
         animationMode: instanceOptions.animationMode,
       };
 
@@ -85,6 +87,14 @@ describe('#initializeFromOptions', () => {
           callMethod({ ...instanceOptions, animationDirection: `${random.number()}` });
 
         expect(callMethodWithInvalidAnimationDirection).toThrowError(errors.animationDirectionMustBeOneOf.message);
+      });
+    });
+
+    describe("when 'animationDuration' is under 0", () => {
+      it('should set it to the default animation duration', () => {
+        callMethod({ ...instanceOptions, animationDuration: -1 });
+
+        expect(instance.animationDuration).toBe(ANIMATION_DURATION);
       });
     });
 

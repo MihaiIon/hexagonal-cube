@@ -1,7 +1,6 @@
-export const ANIMATION_MODE = {
-  INITIAL: 'initial',
-  FORWARD: 'forward',
-  CYCLE: 'cycle',
+export const ANIMATION_ACTION = {
+  SHOW: 'show',
+  HIDE: 'hide',
 };
 
 export const ANIMATION_DIRECTION = {
@@ -13,6 +12,14 @@ export const ANIMATION_DIRECTION = {
   TOP: 'top',
   TOP_LEFT: 'top-left',
   TOP_RIGHT: 'top-right',
+};
+
+export const ANIMATION_DURATION = 1200;
+
+export const ANIMATION_MODE = {
+  INITIAL: 'initial',
+  FORWARD: 'forward',
+  CYCLE: 'cycle',
 };
 
 export const DEFAULT_COLORS = {
@@ -54,8 +61,10 @@ export const DEFAULT_SHAPE_OPTIONS = {
 };
 
 export default {
-  ANIMATION_MODE,
+  ANIMATION_ACTION,
   ANIMATION_DIRECTION,
+  ANIMATION_DURATION,
+  ANIMATION_MODE,
   DEFAULT_SHAPE_OPTIONS,
   DEFAULT_COLORS,
   SHAPE_NAME,

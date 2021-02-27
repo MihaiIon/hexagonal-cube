@@ -78,9 +78,27 @@ describe('HexagonalCube', () => {
   });
 
   describe('static property', () => {
+    describe('ANIMATION_ACTION', () => {
+      it('should have the expected key/value pairs', () => {
+        expect(HexagonalCube.ANIMATION_ACTION).toStrictEqual(STATIC_PROPERTIES.ANIMATION_ACTION);
+      });
+    });
+
     describe('ANIMATION_DIRECTION', () => {
       it('should have the expected key/value pairs', () => {
         expect(HexagonalCube.ANIMATION_DIRECTION).toStrictEqual(STATIC_PROPERTIES.ANIMATION_DIRECTION);
+      });
+    });
+
+    describe('ANIMATION_DURATION', () => {
+      it('should have the expected key/value pairs', () => {
+        expect(HexagonalCube.ANIMATION_DURATION).toStrictEqual(STATIC_PROPERTIES.ANIMATION_DURATION);
+      });
+    });
+
+    describe('ANIMATION_MODE', () => {
+      it('should have the expected key/value pairs', () => {
+        expect(HexagonalCube.ANIMATION_MODE).toStrictEqual(STATIC_PROPERTIES.ANIMATION_MODE);
       });
     });
 

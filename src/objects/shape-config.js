@@ -2,6 +2,7 @@ import errors from '../errors';
 import regexps from '../regexps';
 
 function ShapeConfig(name, path, options) {
+  // TODO: test these two props
   this.name = name;
   this.path = path;
 
