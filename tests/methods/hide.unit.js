@@ -1,4 +1,4 @@
-import hide from '../../src/methods/hide';
+import instanceMethod from '../../src/methods/hide';
 
 import { ANIMATION_ACTION } from '../../src/constants/static-properties';
 
@@ -53,5 +53,5 @@ function createInstance() {
     animate: animateSpy,
   };
 
-  method = hide.bind(instance);
+  method = instanceMethod.bind(instance);
 }

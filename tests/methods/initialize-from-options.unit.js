@@ -1,6 +1,6 @@
 import Snap from 'snapsvg-cjs';
 
-import initializeFromOptions from '../../src/methods/initialize-from-options';
+import instanceMethod from '../../src/methods/initialize-from-options';
 
 import { ANIMATION_DIRECTION, ANIMATION_DURATION, ANIMATION_MODE } from '../../src/constants/static-properties';
 import errors from '../../src/errors';
@@ -129,5 +129,5 @@ function createInstance(validSelector = `#${random.string()}`) {
     initializeShapes: initializeShapesSpy,
   };
 
-  method = initializeFromOptions.bind(instance);
+  method = instanceMethod.bind(instance);
 }

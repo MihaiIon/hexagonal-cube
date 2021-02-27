@@ -1,4 +1,4 @@
-import show from '../../src/methods/show';
+import instanceMethod from '../../src/methods/show';
 
 import { ANIMATION_ACTION } from '../../src/constants/static-properties';
 
@@ -53,5 +53,5 @@ function createInstance() {
     animate: animateSpy,
   };
 
-  method = show.bind(instance);
+  method = instanceMethod.bind(instance);
 }

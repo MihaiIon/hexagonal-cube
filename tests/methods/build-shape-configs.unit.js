@@ -1,7 +1,7 @@
-import buildShapeConfigs from '../../src/methods/build-shape-configs';
+import instanceMethod from '../../src/methods/build-shape-configs';
 
-import ShapeConfig from '../../src/objects/shape-config';
 import { DEFAULT_SHAPE_OPTIONS, SHAPE_NAME } from '../../src/constants/static-properties';
+import ShapeConfig from '../../src/objects/shape-config';
 import regexps from '../../src/regexps';
 
 import random from '../shared/random';
@@ -52,5 +52,5 @@ function createInstance() {
     safeSize: (randomSize * random.number({ min: 6, max: 9 })) / 10,
   };
 
-  method = buildShapeConfigs.bind(instance);
+  method = instanceMethod.bind(instance);
 }

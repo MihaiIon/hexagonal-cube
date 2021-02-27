@@ -1,4 +1,4 @@
-import buildShapeOptions from '../../src/methods/build-shape-options';
+import instanceMethod from '../../src/methods/build-shape-options';
 
 import { DEFAULT_SHAPE_OPTIONS } from '../../src/constants/static-properties';
 
@@ -75,5 +75,5 @@ function callMethod(userShapeOptions = {}) {
 function createInstance() {
   instance = {};
 
-  method = buildShapeOptions.bind(instance);
+  method = instanceMethod.bind(instance);
 }

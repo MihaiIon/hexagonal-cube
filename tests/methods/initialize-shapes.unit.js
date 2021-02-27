@@ -1,4 +1,4 @@
-import initializeShapes from '../../src/methods/initialize-shapes';
+import instanceMethod from '../../src/methods/initialize-shapes';
 
 import Shape from '../../src/objects/shape';
 import ShapeConfig from '../../src/objects/shape-config';
@@ -79,7 +79,7 @@ function createInstance() {
     instanceOptions.shape[propertyName] = random.string();
   });
 
-  method = initializeShapes.bind(instance);
+  method = instanceMethod.bind(instance);
 }
 
 function createMocks() {
