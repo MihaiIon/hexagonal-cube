@@ -2,6 +2,7 @@ import buildShapeConfigs from '../../src/methods/build-shape-configs';
 
 import ShapeConfig from '../../src/objects/shape-config';
 import { DEFAULT_SHAPE_OPTIONS, SHAPE_NAME } from '../../src/constants/static-properties';
+import regexps from '../../src/regexps';
 
 import random from '../shared/random';
 
@@ -30,20 +31,16 @@ describe('#buildShapeConfigs', () => {
   });
 
   it('should contain only valid paths', () => {
-    const validCoordinate = '[0-9]{1,3}(?:[.][0-9]{0,2})?';
-    const validCoordinates = `(?:${validCoordinate},${validCoordinate})`;
-    const validPathRegExp = new RegExp(`M${validCoordinates}(?:L${validCoordinates}){2,3}`);
-
     const shapeConfigs = callMethod();
 
     shapeConfigs.forEach((config) => {
-      expect(config.path).toMatch(validPathRegExp);
+      expect(config.path).toMatch(regexps.validPath);
     });
   });
 });
 
-function callMethod(options = DEFAULT_SHAPE_OPTIONS) {
-  if (typeof method !== 'undefined') return method(options);
+function callMethod(shapeOptions = DEFAULT_SHAPE_OPTIONS) {
+  if (typeof method !== 'undefined') return method(shapeOptions);
   return null;
 }
 
