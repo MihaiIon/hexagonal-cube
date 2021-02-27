@@ -2,17 +2,13 @@ import { SHAPE_NAME } from '../constants/static-properties';
 import { fixedFloat as f, computeHexagonPoints } from '../helpers';
 import ShapeConfig from '../objects/shape-config';
 
-export default function () {
-  // Compute a safe zone margin for animations
-  this.safeMargins = this.size * 0.2;
-  this.safeSize = this.size - this.safeMargins;
-
+export default function (shapeOptions) {
   // Compute triangle dimensions
-  this.equilateralTriangleWidth = this.safeSize / 4;
-  this.equilateralTriangleHeight = (this.equilateralTriangleWidth * Math.sqrt(3)) / 2;
+  const equilateralTriangleWidth = this.safeSize / 4;
+  const equilateralTriangleHeight = (equilateralTriangleWidth * Math.sqrt(3)) / 2;
 
   // Compute the points between each segment
-  const { c, o, i } = computeHexagonPoints(this.size, this.equilateralTriangleHeight, this.equilateralTriangleWidth);
+  const { c, o, i } = computeHexagonPoints(this.size, equilateralTriangleHeight, equilateralTriangleWidth);
 
   // Javascript floating numbers are not precise. This will help get the desired effect
   // for some shapes - Adds a little extra space between some shapes.
@@ -22,11 +18,10 @@ export default function () {
   const moveToCenter = moveTo(c.x, c.y);
 
   // See helpers below
-  const factory = buildFactory(this.shapeOptions);
+  const factory = buildFactory(shapeOptions);
 
-  const configs = [
+  return [
     factory(SHAPE_NAME.INNER_BOTTOM_LEFT, [moveToCenter, lineTo(i.b.x, i.b.y), lineTo(i.bl.x, i.bl.y)]),
-    factory(SHAPE_NAME.INNER_BOTTOM_RIGHT, [moveToCenter, lineTo(i.b.x, i.b.y), lineTo(i.br.x, i.br.y)]),
     factory(SHAPE_NAME.INNER_BOTTOM_RIGHT, [moveToCenter, lineTo(i.b.x, i.b.y), lineTo(i.br.x, i.br.y)]),
     factory(SHAPE_NAME.INNER_LEFT, [moveToCenter, lineTo(i.bl.x, i.bl.y), lineTo(i.tl.x, i.tl.y)]),
     factory(SHAPE_NAME.INNER_RIGHT, [moveToCenter, lineTo(i.br.x, i.br.y), lineTo(i.tr.x, i.tr.y)]),
@@ -69,11 +64,6 @@ export default function () {
       lineTo(i.tr.x, i.tr.y),
     ]),
   ];
-
-  this.shapeConfigs = {};
-  configs.forEach((config) => {
-    this.shapeConfigs[config.name] = config;
-  });
 }
 
 // =====================================================================================

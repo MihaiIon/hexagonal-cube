@@ -1,54 +1,43 @@
 import initializeShapes from '../../src/methods/initialize-shapes';
 
+import Shape from '../../src/objects/shape';
 import ShapeConfig from '../../src/objects/shape-config';
+
 import { DEFAULT_SHAPE_OPTIONS, SHAPE_NAME } from '../../src/constants/static-properties';
 
 import random from '../shared/random';
 
-let instance, method;
+jest.mock('../../src/objects/shape-config');
+jest.mock('../../src/objects/shape');
+
+let instance, instanceOptions, method;
+let buildShapeConfigsSpy, buildShapeOptionsSpy;
+let buildShapeConfigsReturnedValue, buildShapeOptionsReturnedValue;
 
 describe('#initializeShapes', () => {
   beforeEach(() => {
+    createMocks();
     createInstance();
 
-    callMethod();
+    callMethod(instanceOptions);
   });
 
-  it('should set the expected values', () => {
-    const safeMarginsRatio = 0.2;
-
-    const expectedKeyValuePairs = {
-      safeMargins: instance.size * safeMarginsRatio,
-      safeSize: instance.size - instance.safeMargins,
-      equilateralTriangleWidth: instance.safeSize / 4,
-      equilateralTriangleHeight: (instance.equilateralTriangleWidth * Math.sqrt(3)) / 2,
-    };
-
-    expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
+  it("should call 'buildShapeOptions' with the instance's shape options", () => {
+    expect(buildShapeOptionsSpy).toHaveBeenCalledWith(instanceOptions.shape);
   });
 
-  describe('attribute shapeConfigs', () => {
-    it('should contain all shape names associated ', () => {
-      const expectedShapeConfigs = {};
-      Object.values(SHAPE_NAME).forEach((shapeName) => {
-        expectedShapeConfigs[shapeName] = expect.any(ShapeConfig);
-      });
+  it("should call 'buildShapeConfigs with the returned value from 'buildShapeOptions'", () => {
+    expect(buildShapeConfigsSpy).toHaveBeenCalledWith(buildShapeOptionsReturnedValue);
+  });
 
-      expect(instance.shapeConfigs).toEqual(expectedShapeConfigs);
-    });
+  it("should set attribute 'shapes' with the shapes that should be rendered", () => {
+    const expectedShapeNames = buildShapeConfigsReturnedValue
+      .filter((shapeConfig) => shapeConfig.keepToRender())
+      .map((shapeConfig) => shapeConfig.name);
 
-    it('should contain only valid paths', () => {
-      const validCoordinate = '[0-9]{1,3}(?:[.][0-9]{0,2})?';
-      const validCoordinates = `(?:${validCoordinate},${validCoordinate})`;
-      const validPathRegExp = new RegExp(`M${validCoordinates}(?:L${validCoordinates}){2,3}`);
+    const instanceShapeNamesKeptToRender = Object.keys(instance.shapes);
 
-      let path;
-      Object.values(SHAPE_NAME).forEach((shapeName) => {
-        path = instance.shapeConfigs[shapeName].path;
-
-        expect(path).toMatch(validPathRegExp);
-      });
-    });
+    expect(instanceShapeNamesKeptToRender).toEqual(expectedShapeNames.sort());
   });
 });
 
@@ -61,7 +50,41 @@ function createInstance() {
   instance = {
     size: random.number({ min: 300, max: 800 }),
     shapeOptions: DEFAULT_SHAPE_OPTIONS,
+    buildShapeOptions: buildShapeOptionsSpy,
+    buildShapeConfigs: buildShapeConfigsSpy,
+    paper: random.string(),
   };
 
+  instanceOptions = { shape: {} };
+  random.stringArray().forEach((propertyName) => {
+    instanceOptions.shape[propertyName] = random.string();
+  });
+
   method = initializeShapes.bind(instance);
+}
+
+function createMocks() {
+  buildShapeOptionsReturnedValue = DEFAULT_SHAPE_OPTIONS;
+  buildShapeOptionsSpy = jest.fn().mockImplementation(() => buildShapeOptionsReturnedValue);
+
+  // Mock 'ShapeConfig' objects
+  buildShapeConfigsReturnedValue = Object.values(SHAPE_NAME).map((shapeName) => {
+    const shapeConfig = new ShapeConfig();
+
+    shapeConfig.name = shapeName;
+
+    return shapeConfig;
+  });
+
+  // Mock the returned value of 'keepToRender' function (some true, some false)
+  const numberOfConfigs = buildShapeConfigsReturnedValue.length;
+  const numberOfConfigsThatWillReturnTrue = random.number({ min: 1, max: Math.floor(numberOfConfigs * 0.8) });
+
+  for (let i = 0, shapeConfig = null; i < numberOfConfigs; i += 1) {
+    shapeConfig = buildShapeConfigsReturnedValue[i];
+
+    shapeConfig.keepToRender.mockImplementation(() => i <= numberOfConfigsThatWillReturnTrue);
+  }
+
+  buildShapeConfigsSpy = jest.fn().mockImplementation(() => buildShapeConfigsReturnedValue);
 }

@@ -12,7 +12,12 @@ export default function (options = {}) {
 
   // Set 'size' attribute with svg's 'clientHeight'
   if (this.parentNode.clientHeight !== this.parentNode.clientWidth) throw errors.svgHeightAndWidthMustBeTheSame;
-  else this.size = this.parentNode.clientHeight;
+  this.size = this.parentNode.clientHeight;
+
+  // Compute a safe zone margin for animations
+  this.safeMarginsRatio = 0.2;
+  this.safeMargins = this.size * this.safeMarginsRatio;
+  this.safeSize = this.size - this.safeMargins;
 
   // Used to valided each property
   let propertyRegexp;
@@ -28,5 +33,5 @@ export default function (options = {}) {
   this.animationMode = animationMode;
 
   // Set shape objects
-  this.initializeShapes(options.shapes);
+  this.initializeShapes(options);
 }

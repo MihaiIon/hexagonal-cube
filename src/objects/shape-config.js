@@ -14,10 +14,8 @@ function ShapeConfig(name, path, options) {
   this.remove = remove;
 }
 
-ShapeConfig.prototype.attributes = function () {
-  this.attr = { fill: this.fill };
-
-  return this.attr;
+ShapeConfig.prototype.keepToRender = function () {
+  return !this.remove;
 };
 
 export default ShapeConfig;

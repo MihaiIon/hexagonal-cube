@@ -27,6 +27,16 @@ describe('#initializeFromOptions', () => {
     expect(instance.size).toBe(expectedSize);
   });
 
+  it('should set the expected values', () => {
+    const expectedKeyValuePairs = {};
+
+    expectedKeyValuePairs.safeMarginsRatio = 0.2;
+    expectedKeyValuePairs.safeMargins = Snap.__mockedValidPaper.node.clientHeight * expectedKeyValuePairs.safeMarginsRatio;
+    expectedKeyValuePairs.safeSize = Snap.__mockedValidPaper.node.clientHeight - expectedKeyValuePairs.safeMargins;
+
+    expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
+  });
+
   describe("when 'options' are not set", () => {
     it('should set the expected default values', () => {
       const expectedKeyValuePairs = {
@@ -39,10 +49,10 @@ describe('#initializeFromOptions', () => {
   });
 
   describe("when 'options' are set", () => {
-    let methodOptions;
+    let instanceOptions;
 
     beforeEach(() => {
-      methodOptions = {
+      instanceOptions = {
         animationDirection: random.valueFromObject(ANIMATION_DIRECTION),
         animationMode: random.valueFromObject(ANIMATION_MODE),
         shapeAnimationOrder: random.stringArray(),
@@ -54,27 +64,25 @@ describe('#initializeFromOptions', () => {
 
     it('should set the expected values', () => {
       const expectedKeyValuePairs = {
-        animationDirection: methodOptions.animationDirection,
-        animationMode: methodOptions.animationMode,
+        animationDirection: instanceOptions.animationDirection,
+        animationMode: instanceOptions.animationMode,
       };
 
-      callMethod(methodOptions);
+      callMethod(instanceOptions);
 
       expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
     });
 
-    it("should call 'initializeShapes' with the expected argument", () => {
-      const expectedArgument = methodOptions.shapes;
+    it("should call 'initializeShapes' with the instance options", () => {
+      callMethod(instanceOptions);
 
-      callMethod(methodOptions);
-
-      expect(initializeShapesSpy).toHaveBeenCalledWith(expectedArgument);
+      expect(initializeShapesSpy).toHaveBeenCalledWith(instanceOptions);
     });
 
     describe("when 'animationDirection' is not valid", () => {
       it('should throw the expected error', () => {
         const callMethodWithInvalidAnimationDirection = () =>
-          callMethod({ ...methodOptions, animationDirection: `${random.number()}` });
+          callMethod({ ...instanceOptions, animationDirection: `${random.number()}` });
 
         expect(callMethodWithInvalidAnimationDirection).toThrowError(errors.animationDirectionMustBeOneOf.message);
       });
@@ -82,7 +90,7 @@ describe('#initializeFromOptions', () => {
 
     describe("when 'animationMode' is not valid", () => {
       it('should throw the expected error', () => {
-        const callMethodWithInvalidAnimationMode = () => callMethod({ ...methodOptions, animationMode: `${random.number()}` });
+        const callMethodWithInvalidAnimationMode = () => callMethod({ ...instanceOptions, animationMode: `${random.number()}` });
 
         expect(callMethodWithInvalidAnimationMode).toThrowError(errors.animationModeMustBeOneOf.message);
       });

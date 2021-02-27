@@ -78,19 +78,21 @@ describe('ShapeConfig', () => {
         factoryWithGeneratedNameAndPath(shapeOptions);
       });
 
-      describe('#attributes', () => {
-        it('should set the expected attributes', () => {
-          const expectedKeyValuePairs = {
-            attr: { fill: shapeOptions.fill },
-          };
+      describe('#keepToRender', () => {
+        describe('when attribute remove is false', () => {
+          it('should return true', () => {
+            instance.remove = false;
 
-          instance.attributes();
-
-          expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
+            expect(instance.keepToRender()).toBe(true);
+          });
         });
 
-        it('should return the expected object', () => {
-          expect(instance.attributes()).toEqual(instance.attr);
+        describe('when attribute remove is true', () => {
+          it('should return false', () => {
+            instance.remove = true;
+
+            expect(instance.keepToRender()).toBe(false);
+          });
         });
       });
     });

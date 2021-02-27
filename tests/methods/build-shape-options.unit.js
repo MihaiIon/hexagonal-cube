@@ -1,4 +1,4 @@
-import initializeShapesOptions from '../../src/methods/initialize-shape-options';
+import buildShapeOptions from '../../src/methods/build-shape-options';
 
 import { DEFAULT_SHAPE_OPTIONS } from '../../src/constants/static-properties';
 
@@ -6,16 +6,16 @@ import random from '../shared/random';
 
 let instance, method;
 
-describe('#initializeShapesOptions', () => {
+describe('#buildShapeOptions', () => {
   beforeEach(() => {
     createInstance();
   });
 
   describe('when there are no user defined shapes options', () => {
-    it("should set 'shapeOptions' to the default value", () => {
-      callMethod();
+    it('should return the default values', () => {
+      const shapeOptions = callMethod();
 
-      expect(instance.shapeOptions).toEqual(DEFAULT_SHAPE_OPTIONS);
+      expect(shapeOptions).toEqual(DEFAULT_SHAPE_OPTIONS);
     });
   });
 
@@ -32,12 +32,12 @@ describe('#initializeShapesOptions', () => {
             remove: random.boolean(),
           },
         };
-
-        callMethod(userShapeOptions);
       });
 
-      it('should ignore it and keep the default values', () => {
-        expect(instance.shapeOptions).toEqual(DEFAULT_SHAPE_OPTIONS);
+      it('should return the default values', () => {
+        const shapeOptions = callMethod(userShapeOptions);
+
+        expect(shapeOptions).toEqual(DEFAULT_SHAPE_OPTIONS);
       });
     });
 
@@ -51,17 +51,17 @@ describe('#initializeShapesOptions', () => {
             remove: random.boolean(),
           },
         };
-
-        callMethod(userShapeOptions);
       });
 
-      it('should override the default value for that shape', () => {
+      it("should return and override the default values by the user's configuration", () => {
         const expectedShapesOptions = {
           ...DEFAULT_SHAPE_OPTIONS,
           ...userShapeOptions,
         };
 
-        expect(instance.shapeOptions).toEqual(expectedShapesOptions);
+        const shapeOptions = callMethod(userShapeOptions);
+
+        expect(shapeOptions).toEqual(expectedShapesOptions);
       });
     });
   });
@@ -75,5 +75,5 @@ function callMethod(userShapeOptions = {}) {
 function createInstance() {
   instance = {};
 
-  method = initializeShapesOptions.bind(instance);
+  method = buildShapeOptions.bind(instance);
 }
