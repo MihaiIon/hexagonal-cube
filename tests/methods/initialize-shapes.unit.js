@@ -30,14 +30,33 @@ describe('#initializeShapes', () => {
     expect(buildShapeConfigsSpy).toHaveBeenCalledWith(buildShapeOptionsReturnedValue);
   });
 
-  it("should set attribute 'shapes' with the shapes that should be rendered", () => {
-    const expectedShapeNames = buildShapeConfigsReturnedValue
-      .filter((shapeConfig) => shapeConfig.keepToRender())
-      .map((shapeConfig) => shapeConfig.name);
+  describe("attribute 'shapes'", () => {
+    it('should set it with the shapes that should be rendered', () => {
+      const expectedShapeNames = buildShapeConfigsReturnedValue
+        .filter((shapeConfig) => shapeConfig.keepToRender())
+        .map((shapeConfig) => shapeConfig.name);
 
-    const instanceShapeNamesKeptToRender = Object.keys(instance.shapes);
+      const instanceShapeNamesKeptToRender = Object.keys(instance.shapes);
 
-    expect(instanceShapeNamesKeptToRender).toEqual(expectedShapeNames.sort());
+      expect(instanceShapeNamesKeptToRender.sort()).toEqual(expectedShapeNames.sort());
+    });
+
+    it("should initialize each 'Shape' instance with the expected arguments", () => {
+      const instanceRenderedShapeNames = Object.keys(instance.shapes);
+      const expectedShapeConfigs = buildShapeConfigsReturnedValue
+        .filter((shapeConfig) => shapeConfig.keepToRender())
+        .reduce((obj, shapeConfig) => {
+          obj[shapeConfig.name] = shapeConfig;
+
+          return obj;
+        }, {});
+
+      instanceRenderedShapeNames.forEach((instanceRenderedShapeName) => {
+        const expectedArguments = [instance.paper, expectedShapeConfigs[instanceRenderedShapeName]];
+
+        expect(Shape).toHaveBeenCalledWith(...expectedArguments);
+      });
+    });
   });
 });
 
