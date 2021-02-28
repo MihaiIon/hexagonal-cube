@@ -1,3 +1,5 @@
+import Snap from 'snapsvg-cjs';
+
 import Shape from '../../src/objects/shape';
 import ShapeConfig from '../../src/objects/shape-config';
 
@@ -45,6 +47,7 @@ describe('Shape', () => {
           baseAttributes: {
             fill: instanceArguments[1].fill,
             opacity: 1,
+            transform: Snap.__mockedBaseTransformationMatrix,
           },
           hiddenAttributes: {
             fill: DEFAULT_COLORS.WHITE,
