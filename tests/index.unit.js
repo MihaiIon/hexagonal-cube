@@ -24,6 +24,7 @@ describe('HexagonalCube', () => {
       const expectedKeyValuePairs = {
         animating: false,
         selector: instanceArguments[0],
+        shapesHidden: true,
       };
 
       expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));

@@ -8,8 +8,11 @@ function HexagonalCube(svgSelector = null, options = {}) {
   if (typeof svgSelector !== 'string') throw errors.svgSelectorMustBeOfTypeString;
   if (!regexps.svgSelector.test(svgSelector)) throw errors.svgSelectorIsNotValid;
 
-  this.selector = svgSelector;
   this.animating = false;
+
+  this.selector = svgSelector;
+
+  this.shapesHidden = true;
 
   this.initializeFromOptions(options);
 }

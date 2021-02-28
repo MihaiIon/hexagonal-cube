@@ -18,9 +18,25 @@ describe('#show', () => {
     expect(animateSpy).toHaveBeenCalledWith(...expectedArguments);
   });
 
+  it("should set 'shapesHidden' to false", () => {
+    callMethod();
+
+    expect(instance.shapesHidden).toBe(false);
+  });
+
   describe("when 'animating' is true", () => {
     it("should not call 'animate'", () => {
       instance.animating = true;
+
+      callMethod();
+
+      expect(animateSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("when 'shapesHidden' is false", () => {
+    it("should not call 'animate'", () => {
+      instance.shapesHidden = false;
 
       callMethod();
 
@@ -51,6 +67,7 @@ function createInstance() {
   instance = {
     animating: false,
     animate: animateSpy,
+    shapesHidden: true,
   };
 
   method = instanceMethod.bind(instance);
