@@ -1,38 +1,62 @@
-export default function (animationOptions = {}, callback = null) {
-  // Animation options
-  const {
-    animationAttributes = this.visibleShapeAttributes,
-    animationDelay = 10,
-    animationDuration = 10,
-    animationOrder = this.shapeAnimationOrder,
-  } = animationOptions;
+import { ANIMATION_ACTION } from '../constants/static-properties';
 
-  // Animation helpers
-  let delay, shape, shapeAttributes;
+export default function (animationAction, callback = null) {
+  //
+  const animationOrder = this.computeAnimationOrder();
+
+  //
+  const transformationMatrix = this.computeTransformationMatrix();
 
   // Timing function added by SnapSvg library
   const mina = window.mina || document.mina;
 
-  // Done callback
-  const done = callback && typeof callback === 'function' ? callback : () => null;
+  // Animation helper
+  const animationProps = {
+    animationDuration: this.animationDuration,
+    animationOrder,
+    easingFunction: mina.easeout,
+    lastDelay: this.delayBeforeLastShapeIsAnimated,
+    shapes: this.shapes,
+  };
 
-  // Animate
-  for (let i = 0; i < animationOrder.length; i += 1) {
-    delay = animationDelay * mina.easeout((1 / animationOrder.length) * i);
-    shape = this.shapes[animationOrder[i]];
-    shapeAttributes = this.shapesConfig[animationOrder[i]].attr;
+  animationHelper(animationProps, function onShapeReady(shape) {
+    if (shape === null) return callback && callback();
+    if (animationAction === ANIMATION_ACTION.HIDE)
+      return shape.hide(transformationMatrix, animationProps.animationDuration * 0.8, mina.easein);
+    return shape.show(transformationMatrix, animationProps.animationDuration, mina.bounce);
+  });
+}
 
-    ((d, s, attr) => {
+function animationHelper(props, onShapeReady) {
+  const { animationDuration, animationOrder, lastDelay, shapes, easingFunction } = props;
+
+  // Number of shapes to be animated
+  const shapeCount = animationOrder.length;
+
+  // Animation variables
+  let delay, shape, shapeName;
+
+  for (let i = 0; i < shapeCount; i += 1) {
+    delay = lastDelay * easingFunction((1 / shapeCount) * i);
+
+    shapeName = animationOrder[i];
+    shape = shapes[shapeName];
+
+    // Create closure to capture the correct values in the timeout functions
+    ((d, s) => {
       let timer = null;
       timer = setTimeout(() => {
-        s.animate({ transform: animationAttributes.transform }, animationDuration, mina.easeinout);
-        s.animate({ fill: animationAttributes.fill || attr.fill, opacity: animationAttributes.opacity }, animationDuration, mina.easeinout);
+        // Animation callback
+        onShapeReady(s);
+
+        // Clear the timeout from memory
         clearTimeout(timer);
 
-        if (i === animationOrder.length - 1) {
-          timer = setTimeout(() => done() && clearTimeout(timer), animationDuration);
+        // When last shape is animated, call the 'callback' function and clear the timeout from memory
+        if (i === shapeCount - 1) {
+          timer = setTimeout(() => onShapeReady(null) && clearTimeout(timer), animationDuration);
         }
       }, d);
-    })(delay, shape, shapeAttributes);
+    })(delay, shape);
   }
 }

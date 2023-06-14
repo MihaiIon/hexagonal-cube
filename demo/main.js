@@ -1,4 +1,4 @@
-const HexagonalCube = window.MyLibrary.default;
+const HexagonalCube = window.HexagonalCube.default;
 
 const instances = [];
 
@@ -8,7 +8,7 @@ instances.push(new HexagonalCube('#svg1'));
 // Subset
 instances.push(
   new HexagonalCube('#svg2', {
-    shapes: {
+    shape: {
       [HexagonalCube.SHAPE_NAME.OUTER_TOP_RIGHT]: { remove: true },
       [HexagonalCube.SHAPE_NAME.OUTER_TOP_LEFT]: { remove: true },
       [HexagonalCube.SHAPE_NAME.OUTER_LEFT]: { remove: true },
@@ -20,7 +20,7 @@ instances.push(
 // Multicolor
 instances.push(
   new HexagonalCube('#svg3', {
-    shapes: {
+    shape: {
       [HexagonalCube.SHAPE_NAME.OUTER_TOP_RIGHT]: { fill: '#E74C3C' },
       [HexagonalCube.SHAPE_NAME.OUTER_TOP_LEFT]: { fill: '#3498DB' },
       [HexagonalCube.SHAPE_NAME.OUTER_RIGHT]: { fill: '#EC7063', remove: false },
@@ -40,14 +40,14 @@ instances.push(
 // Subset & colored
 instances.push(
   new HexagonalCube('#svg4', {
-    shapes: {
+    shape: {
       [HexagonalCube.SHAPE_NAME.OUTER_TOP_RIGHT]: { fill: '#5DADE2' },
       [HexagonalCube.SHAPE_NAME.OUTER_TOP_LEFT]: { fill: '#4294ca' },
       [HexagonalCube.SHAPE_NAME.OUTER_RIGHT]: { fill: '#3498DB', remove: false },
       [HexagonalCube.SHAPE_NAME.OUTER_LEFT]: { remove: true },
       [HexagonalCube.SHAPE_NAME.OUTER_BOTTOM_RIGHT]: { fill: '#2b8dd0', remove: false },
       [HexagonalCube.SHAPE_NAME.OUTER_BOTTOM_LEFT]: { fill: '#1f7bb9' },
-      [HexagonalCube.SHAPE_NAME.INNER_TOP_RIGHT]: { fill: '#fff' },
+      [HexagonalCube.SHAPE_NAME.INNER_TOP_RIGHT]: { fill: '#ffffff' },
       [HexagonalCube.SHAPE_NAME.INNER_TOP_LEFT]: { fill: '#5DADE2' },
       [HexagonalCube.SHAPE_NAME.INNER_RIGHT]: { fill: '#f2f9fd' },
       [HexagonalCube.SHAPE_NAME.INNER_LEFT]: { fill: '#3498DB' },

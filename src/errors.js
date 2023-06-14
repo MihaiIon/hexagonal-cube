@@ -7,7 +7,9 @@ export default {
   animationDirectionMustBeOneOf: error(
     `Attribute 'animationDirection' must be one of <${Object.values(ANIMATION_DIRECTION).join('|')}>`,
   ),
+  animationDurationMustBeOfTypeNumber: error(`Attribute 'animationDuration' must by of type 'number'`),
   animationModeMustBeOneOf: error(`Attribute 'animationMode' must be one of <${Object.values(ANIMATION_MODE).join('|')}>`),
+  delayBeforeLastShapeIsAnimatedMustBeOfTypeNumber: error(`Attribute 'delayBeforeLastShapeIsAnimated' must by of type 'number'`),
   shapefillColorFormat: error("Attribute 'shapeConfig.fill' must match the following pattern: /^#[0-9a-fA-F]{6}$/"),
   shapeRemoveMustBeOfTypeBoolean: error("Attribute 'shape.remove' must be of type 'boolean'"),
   shapePaperNotValid: error("Argument 'paper' is not a valid SnapSvg Paper object"),

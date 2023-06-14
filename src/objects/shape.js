@@ -29,17 +29,22 @@ function Shape(paper = null, shapeConfig = null) {
 }
 
 // TODO: test this
-Shape.prototype.show = function (animationDuration, timingFunction) {
-  const animationAttributes = { ...this.baseAttributes };
+Shape.prototype.hide = function (
+  transformationMatrix = Shape.BASE_TRANSFORMATION_MATRIX,
+  animationDuration = 0,
+  timingFunction = null,
+) {
+  const animationAttributes = { ...this.hiddenAttributes, transform: transformationMatrix };
 
-  this.element.attr(animationAttributes, animationDuration, timingFunction);
+  this.element.animate(animationAttributes, animationDuration, timingFunction);
 };
 
 // TODO: test this
-Shape.prototype.hide = function (transformationMatrix, animationDuration, timingFunction) {
-  const animationAttributes = { ...this.hiddenAttributes, transform: transformationMatrix };
+Shape.prototype.show = function (transformationMatrix, animationDuration = 0, timingFunction = null) {
+  const animationAttributes = { ...this.baseAttributes };
 
-  this.element.attr(animationAttributes, animationDuration, timingFunction);
+  this.element.attr({ transform: transformationMatrix });
+  this.element.animate(animationAttributes, animationDuration, timingFunction);
 };
 
 Shape.BASE_TRANSFORMATION_MATRIX = Snap.matrix(1, 0, 0, 1, 0, 0);

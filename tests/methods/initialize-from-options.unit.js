@@ -41,7 +41,9 @@ describe('#initializeFromOptions', () => {
     it('should set the expected default values', () => {
       const expectedKeyValuePairs = {
         animationDirection: ANIMATION_DIRECTION.LEFT,
+        animationDuration: ANIMATION_DURATION,
         animationMode: ANIMATION_MODE.INITIAL,
+        delayBeforeLastShapeIsAnimated: Math.floor(ANIMATION_DURATION * 0.4),
       };
 
       expect(instance).toEqual(expect.objectContaining(expectedKeyValuePairs));
@@ -52,10 +54,13 @@ describe('#initializeFromOptions', () => {
     let instanceOptions;
 
     beforeEach(() => {
+      const randomAnimationDuration = random.number({ min: 600 });
+
       instanceOptions = {
         animationDirection: random.valueFromObject(ANIMATION_DIRECTION),
-        animationDuration: random.number(),
+        animationDuration: randomAnimationDuration,
         animationMode: random.valueFromObject(ANIMATION_MODE),
+        delayBeforeLastShapeIsAnimated: random.number({ max: randomAnimationDuration }),
         shapeAnimationOrder: random.stringArray(),
         shapes: random.stringArray(),
       };
@@ -68,6 +73,7 @@ describe('#initializeFromOptions', () => {
         animationDirection: instanceOptions.animationDirection,
         animationDuration: instanceOptions.animationDuration,
         animationMode: instanceOptions.animationMode,
+        delayBeforeLastShapeIsAnimated: instanceOptions.delayBeforeLastShapeIsAnimated,
       };
 
       callMethod(instanceOptions);
@@ -90,6 +96,15 @@ describe('#initializeFromOptions', () => {
       });
     });
 
+    describe("when 'animationDuration' is not valid", () => {
+      it('should throw the expected error', () => {
+        const callMethodWithInvalidAnimationDuration = () =>
+          callMethod({ ...instanceOptions, animationDuration: random.string() });
+
+        expect(callMethodWithInvalidAnimationDuration).toThrowError(errors.animationDurationMustBeOfTypeNumber.message);
+      });
+    });
+
     describe("when 'animationDuration' is under 0", () => {
       it('should set it to the default animation duration', () => {
         callMethod({ ...instanceOptions, animationDuration: -1 });
@@ -103,6 +118,17 @@ describe('#initializeFromOptions', () => {
         const callMethodWithInvalidAnimationMode = () => callMethod({ ...instanceOptions, animationMode: `${random.number()}` });
 
         expect(callMethodWithInvalidAnimationMode).toThrowError(errors.animationModeMustBeOneOf.message);
+      });
+    });
+
+    describe("when 'delayBeforeLastShapeIsAnimated' is not a number", () => {
+      it('should throw the expected error', () => {
+        const callMethodWithInvalidDelayBeforeLastShapeIsAnimated = () =>
+          callMethod({ ...instanceOptions, delayBeforeLastShapeIsAnimated: random.string() });
+
+        expect(callMethodWithInvalidDelayBeforeLastShapeIsAnimated).toThrowError(
+          errors.delayBeforeLastShapeIsAnimatedMustBeOfTypeNumber.message,
+        );
       });
     });
   });

@@ -8,6 +8,7 @@ export default function (options = {}) {
     animationDirection = ANIMATION_DIRECTION.LEFT,
     animationDuration = ANIMATION_DURATION,
     animationMode = ANIMATION_MODE.INITIAL,
+    delayBeforeLastShapeIsAnimated,
   } = options;
 
   // Create Snap instance
@@ -37,7 +38,20 @@ export default function (options = {}) {
   this.animationMode = animationMode;
 
   // Set animation duration
+  if (typeof animationDuration !== 'number') throw errors.animationDurationMustBeOfTypeNumber;
   this.animationDuration = animationDuration < 0 ? ANIMATION_DURATION : animationDuration;
+
+  // Set delay before the last shape is animated
+  const defaultDelayBeforeLastShapeIsAnimated = Math.floor(this.animationDuration * 0.8);
+
+  if (typeof delayBeforeLastShapeIsAnimated === 'undefined') {
+    this.delayBeforeLastShapeIsAnimated = defaultDelayBeforeLastShapeIsAnimated;
+  } else if (typeof delayBeforeLastShapeIsAnimated !== 'number') {
+    throw errors.delayBeforeLastShapeIsAnimatedMustBeOfTypeNumber;
+  } else {
+    this.delayBeforeLastShapeIsAnimated =
+      delayBeforeLastShapeIsAnimated < 0 ? defaultDelayBeforeLastShapeIsAnimated : delayBeforeLastShapeIsAnimated;
+  }
 
   // Set shape objects
   this.initializeShapes(options);
